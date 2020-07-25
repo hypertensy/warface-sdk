@@ -25,8 +25,8 @@ Before using, you should read a documentation about the functions and their para
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-$client = new \Warface\ApiClient();
-$info = $client->clan()->members('1337', \Warface\Enums\GameServer::ALPHA);
+$client = new Warface\ApiClient();
+$info = $client->clan()->members('1337', Warface\Enums\GameServer::ALPHA);
 
 print_r($info);
 ```

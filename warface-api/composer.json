@@ -1,0 +1,16 @@
+{
+    "name": "wnull/warface-api",
+    "description": "",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.4.0",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Warface\\": "src/warface-api"
+        }
+    }
+}

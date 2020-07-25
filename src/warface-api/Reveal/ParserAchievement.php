@@ -4,7 +4,8 @@ namespace Warface\Reveal;
 
 class ParserAchievement
 {
-    public const HOST = 'https://wfts.su/achievements';
+    public const HOST = 'https://wfts.su/';
+    private const CATALOG = 'achievements';
 
     public array $cfg = [
         'cache_time' => 604800,
@@ -43,7 +44,7 @@ class ParserAchievement
         $dom = new \DOMDocument();
 
         libxml_use_internal_errors(true);
-        $dom->loadHTML(file_get_contents(self::HOST));
+        $dom->loadHTML(file_get_contents(self::HOST . self::CATALOG));
         libxml_clear_errors();
 
         $xpath = new \DOMXPath($dom);

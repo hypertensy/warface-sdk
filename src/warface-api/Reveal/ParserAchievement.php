@@ -22,7 +22,7 @@ class ParserAchievement
     }
 
     /**
-     * @return string
+     * @return array
      */
     public function get(): array
     {
@@ -61,20 +61,5 @@ class ParserAchievement
         }
 
         return $resource;
-    }
-
-    /**
-     * @param string $url
-     * @param string $file
-     */
-    public function saveImage(string $url, string $file): void
-    {
-        $ch = curl_init($url);
-        $fp = fopen($file, 'wb');
-        curl_setopt($ch, CURLOPT_FILE, $fp);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_exec($ch);
-        curl_close($ch);
-        fclose($fp);
     }
 }

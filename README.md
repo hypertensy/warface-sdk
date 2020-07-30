@@ -1,4 +1,4 @@
-# Warface API 
+# Warface API [![Latest Stable Version](https://poser.pugx.org/wnull/warface-api/v)](//packagist.org/packages/wnull/warface-api) [![Total Downloads](https://poser.pugx.org/wnull/warface-api/downloads)](//packagist.org/packages/wnull/warface-api) [![License](https://poser.pugx.org/wnull/warface-api/license)](//packagist.org/packages/wnull/warface-api)
 
 Convenient library for working with the Warface API on PHP.
 

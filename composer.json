@@ -1,10 +1,12 @@
 {
     "name": "wnull/warface-api",
-    "description": "",
+    "description": "Convenient library for working with the Warface API on PHP",
+	"keywords": ["warface", "api", "userbars"],
     "type": "library",
+    "homepage": "https://github.com/wnull/warface-api",
     "license": "MIT",
     "require": {
-        "php": ">=7.4.0",
+        "php": ">=7.4",
         "ext-curl": "*",
         "ext-json": "*"
     },

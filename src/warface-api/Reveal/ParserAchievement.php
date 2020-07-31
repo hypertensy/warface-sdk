@@ -22,7 +22,7 @@ class ParserAchievement
     }
 
     /**
-     * @return string
+     * @return array
      */
     public function get(): array
     {

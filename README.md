@@ -4,13 +4,13 @@ Convenient library for working with the Warface API on PHP.
 
 ## Prerequisites
 
-| Name       | Version  |
-|  ---       |   ---    |
-| php        | \>=7.4.0 |
-| ext-curl   |    *     |
-| ext-json   |    *     |
-| ext-libxml |    *     |
-| ext-dom    |    *     |
+| Name       | Version |
+|  ---       |   ---   |
+| php        | \>=7.4  |
+| ext-curl   |    *    |
+| ext-json   |    *    |
+| ext-libxml |    *    |
+| ext-dom    |    *    |
 
 ## Installation
 

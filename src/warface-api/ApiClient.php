@@ -15,9 +15,14 @@ class ApiClient
         $this->controller = new RequestController($region);
     }
 
+    /**
+     * @param $methodName
+     * @param $arguments
+     * @return mixed
+     */
     public function __call($methodName, $arguments)
     {
-        $class = "\Warface\Methods\\$methodName";
+        $class = __NAMESPACE__ . "\Methods\\" . ucfirst($methodName);
 
         if (!class_exists($class)) {
             throw new \RuntimeException('Class not found');

@@ -1,14 +1,16 @@
 {
     "name": "wnull/warface-api",
     "description": "Convenient library for working with the Warface API on PHP",
-	"keywords": ["warface", "api", "userbars"],
+	"keywords": ["warface", "api", "client"],
     "type": "library",
     "homepage": "https://github.com/wnull/warface-api",
     "license": "MIT",
     "require": {
-        "php": ">=7.4",
+        "php": ">=7.4.0",
         "ext-curl": "*",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-dom": "*"
     },
     "autoload": {
         "psr-4": {

@@ -14,7 +14,7 @@ Convenient library for working with the Warface API on PHP.
 
 ## Installation
 
-This generator can be installed using Composer by running the following command:
+This library can be installed using Composer by running the following command:
 
 ```sh
 composer require wnull/warface-api

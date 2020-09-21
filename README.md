@@ -4,8 +4,8 @@ Convenient library for working with the Warface API on PHP.
 
 ## Prerequisites
 
-| Name       | Version |
-|  ---       |   ---   |
+|    Name    | Version |
+|    ---     |  :---:  |
 | php        | \>=7.4  |
 | ext-curl   |    *    |
 | ext-json   |    *    |

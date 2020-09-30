@@ -5,11 +5,11 @@ namespace Warface\Reveal;
 class ParserAchievement
 {
     public const HOST = 'https://wfts.su/';
-    private const CATALOG = 'achievements';
+    public const CATALOG = 'achievements';
 
     public array $cfg = [
         'cache_time' => 604800,
-        'cache_file' => '/Cache/cache.json'
+        'cache_file' => __DIR__ . DIRECTORY_SEPARATOR . 'Cache/cache.json'
     ];
 
     /**
@@ -18,7 +18,9 @@ class ParserAchievement
      */
     public function __construct(array $data = [])
     {
-        $this->cfg = (isset($data['cache_time']) || isset($data['cache_file'])) ? $data : $this->cfg;
+        foreach ($data as $key => $value) {
+            if (in_array($key, ['cache_time', 'cache_file'])) $this->cfg[$key] = $value ?? $this->cfg[$key];
+        }
     }
 
     /**
@@ -26,10 +28,9 @@ class ParserAchievement
      */
     public function get(): array
     {
-        $file = __DIR__ . $this->cfg['cache_file'];
-        $time = $this->cfg['cache_time'];
+        $file = $this->cfg['cache_file'];
 
-        if (!(file_exists($file) && (filemtime($file) > (time() - $time)))) {
+        if (!(file_exists($file) && (filemtime($file) > (time() - $this->cfg['cache_time'])))) {
             file_put_contents($file, json_encode($this->start()), LOCK_EX);
         }
 

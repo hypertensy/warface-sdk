@@ -2,10 +2,12 @@
 
 namespace Warface;
 
+use Warface\Exceptions\RequestExceptions;
+
 class RequestController
 {
-    const REGION_RU = 'http://api.warface.ru/';
-    const REGION_EN = 'http://api.wf.my.com/';
+    public const REGION_RU = 'http://api.warface.ru/';
+    public const REGION_EN = 'http://api.wf.my.com/';
 
     private string $location;
 
@@ -16,7 +18,7 @@ class RequestController
     public function __construct(string $region)
     {
         if (!in_array($region, [self::REGION_RU, self::REGION_EN])) {
-            throw new \InvalidArgumentException('Incorrect region');
+            throw new \InvalidArgumentException('Incorrect region', 102);
         }
 
         $this->location = $region;
@@ -26,24 +28,23 @@ class RequestController
      * @param string $url
      * @param array $params
      * @return array
+     * @throws RequestExceptions
      */
     public function request(string $url, array $params = []): array
     {
         $ch = curl_init();
 
         curl_setopt_array($ch, [
-            CURLOPT_URL             => $this->location . $url . '/?' . http_build_query($params),
+            CURLOPT_URL             => sprintf('%s?%s', $this->location . $url, http_build_query($params)),
             CURLOPT_RETURNTRANSFER  => true
         ]);
 
         $content = curl_exec($ch);
-        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        switch ($http_code)
+        switch (curl_getinfo($ch, CURLINFO_HTTP_CODE))
         {
-            case 400:
             case 404:
-                throw new \InvalidArgumentException('Invalid request' . $content);
+                throw new RequestExceptions('Invalid request', 100);
                 break;
         }
 

@@ -2,6 +2,8 @@
 
 namespace Warface;
 
+use Warface\Exceptions\ApiClientExceptions;
+
 class ApiClient
 {
     private RequestController $controller;
@@ -10,6 +12,7 @@ class ApiClient
     /**
      * ApiClient constructor.
      * @param string $region
+     * @throws ApiClientExceptions
      */
     public function __construct(string $region = RequestController::REGION_RU)
     {
@@ -35,6 +38,7 @@ class ApiClient
     /**
      * @param string $region
      * @return string
+     * @throws ApiClientExceptions
      */
     private function _setLanguage(string $region): string
     {
@@ -49,7 +53,7 @@ class ApiClient
                 break;
 
             default:
-                throw new \InvalidArgumentException('Select invalid region.');
+                throw new ApiClientExceptions('Invalid region specified', 101);
                 break;
         }
 

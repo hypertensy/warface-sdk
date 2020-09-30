@@ -2,7 +2,7 @@
 
 namespace Warface\Methods;
 
-use Warface\RequestController;
+use Warface\{RequestController, Exceptions\RequestExceptions};
 
 class Weapon
 {
@@ -19,6 +19,7 @@ class Weapon
 
     /**
      * @return array
+     * @throws RequestExceptions
      */
     public function catalog(): array
     {

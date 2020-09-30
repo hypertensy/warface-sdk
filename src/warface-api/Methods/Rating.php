@@ -2,7 +2,7 @@
 
 namespace Warface\Methods;
 
-use Warface\RequestController;
+use Warface\{RequestController, Exceptions\RequestExceptions};
 
 class Rating
 {
@@ -23,6 +23,7 @@ class Rating
      * @param int $league
      * @param int $page
      * @return array
+     * @throws RequestExceptions
      */
     public function monthly(int $server, ?string $clan, int $league = 0, int $page = 0): array
     {
@@ -37,6 +38,7 @@ class Rating
     /**
      * @param int $server
      * @return array
+     * @throws RequestExceptions
      */
     public function clan(int $server): array
     {
@@ -49,6 +51,7 @@ class Rating
      * @param int $server
      * @param int $class
      * @return array
+     * @throws RequestExceptions
      */
     public function top100(int $server, int $class = 0): array
     {

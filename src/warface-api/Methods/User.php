@@ -2,7 +2,7 @@
 
 namespace Warface\Methods;
 
-use Warface\RequestController;
+use Warface\{RequestController, Exceptions\RequestExceptions};
 
 class User
 {
@@ -22,6 +22,7 @@ class User
      * @param int $server
      * @param int $format
      * @return array
+     * @throws RequestExceptions
      */
     public function stat(?string $name, int $server, int $format = 0): array
     {
@@ -39,7 +40,7 @@ class User
             case 2:
 
                 /**
-                 * Source: https://qna.habr.com/answer?answer_id=1298038
+                 * @source https://qna.habr.com/answer?answer_id=1298038
                  * @author @Catrinblaidd
                  */
 
@@ -95,6 +96,7 @@ class User
      * @param string|int $name
      * @param int $server
      * @return array
+     * @throws RequestExceptions
      */
     public function achievements(?string $name, int $server): array
     {

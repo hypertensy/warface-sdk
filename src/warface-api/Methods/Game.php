@@ -2,7 +2,7 @@
 
 namespace Warface\Methods;
 
-use Warface\RequestController;
+use Warface\{RequestController, Exceptions\RequestExceptions};
 
 class Game
 {
@@ -19,6 +19,7 @@ class Game
 
     /**
      * @return array
+     * @throws RequestExceptions
      */
     public function missions(): array
     {

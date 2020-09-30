@@ -2,7 +2,7 @@
 
 namespace Warface\Methods;
 
-use Warface\RequestController;
+use Warface\{RequestController, Exceptions\RequestExceptions};
 
 class Clan
 {
@@ -21,6 +21,7 @@ class Clan
      * @param string|int $clan
      * @param int $server
      * @return array
+     * @throws RequestExceptions
      */
     public function members(?string $clan, int $server): array
     {

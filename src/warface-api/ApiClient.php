@@ -36,6 +36,17 @@ class ApiClient
     }
 
     /**
+     * @param string $trace
+     * @param array $params
+     * @return array
+     * @throws Exceptions\RequestExceptions
+     */
+    public function execute(string $trace, array $params = []): array
+    {
+        return $this->controller->request($trace, $params);
+    }
+
+    /**
      * @param string $region
      * @return string
      * @throws ApiClientExceptions

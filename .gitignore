@@ -2,3 +2,5 @@
 vendor/
 index.php
 composer.lock
+.phpunit.result.cache
+src/warface-api/Reveal/Cache/*

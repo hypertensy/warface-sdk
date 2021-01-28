@@ -1,8 +1,8 @@
 <?php
 
-namespace Warface\Enums;
+namespace Warface\Enums\Game;
 
-class GameClass
+class Classes
 {
     public const RIFLEMAN = 'Rifleman';
     public const MEDIC = 'Medic';

@@ -1,23 +1,24 @@
 {
     "name": "wnull/warface-api",
-    "description": "Convenient library for working with the Warface API on PHP",
-    "keywords": ["warface", "api", "client"],
+    "description": "",
     "type": "library",
-    "homepage": "https://github.com/wnull/warface-api",
     "license": "MIT",
     "require": {
-        "php": ">=7.4",
-        "ext-curl": "*",
-        "ext-json": "*",
-        "ext-libxml": "*",
-        "ext-dom": "*"
+        "php": "^7.4 || ^8.0",
+        "guzzlehttp/guzzle": "^7.2.0",
+        "ext-json": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.4.3"
+        "phpunit/phpunit": "^9.5.1"
     },
     "autoload": {
         "psr-4": {
-            "Warface\\": "src/warface-api"
+            "Warface\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TestWarface\\": "tests/"
         }
     }
 }

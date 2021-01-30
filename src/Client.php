@@ -9,9 +9,11 @@ class Client
 {
     private \GuzzleHttp\Client $client;
 
+    private string $location;
+
     private array $locations = [
-        'russian' => 'http://api.warface.ru/',
-        'english' => 'http://api.wf.my.com/'
+        Location::RU => 'http://api.warface.ru/',
+        Location::EN => 'http://api.wf.my.com/'
     ];
 
     /**
@@ -20,6 +22,8 @@ class Client
      */
     public function __construct(string $location = Location::RU)
     {
+        $this->location = $location;
+
         if (!(isset($location) && isset($this->locations[$location]))) {
             throw new \InvalidArgumentException(ErrorMsg::REGION);
         }
@@ -35,8 +39,6 @@ class Client
     public function __call(string $name, array $arguments)
     {
         $class = __NAMESPACE__ . "\Methods\\" . ucfirst($name);
-
-        echo $class;
 
         if (!class_exists($class)) {
             throw new \RuntimeException(ErrorMsg::BRANCH);
@@ -70,6 +72,6 @@ class Client
             }
         }
 
-        return json_decode($response, true);
+        return array_merge(json_decode($response, true), ['location' => $this->location]);
     }
 }

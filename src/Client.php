@@ -3,8 +3,20 @@
 namespace Warface;
 
 use Warface\Enums\{Location, ErrorMsg};
+use Warface\Methods\{Achievement, Clan, Game, Rating, User, Weapon};
 use GuzzleHttp\{Exception\GuzzleException, Exception\RequestException};
 
+/**
+ * Class Client
+ * @package Warface
+ *
+ * @method Achievement achievement()
+ * @method Clan clan()
+ * @method Game game()
+ * @method Rating rating()
+ * @method User user()
+ * @method Weapon weapon()
+ */
 class Client
 {
     private \GuzzleHttp\Client $client;
@@ -52,7 +64,7 @@ class Client
      * @param array $params
      * @return array
      */
-    public function request(string $branch, array $params = []): array
+    protected function request(string $branch, array $params = []): array
     {
         $response = '';
 

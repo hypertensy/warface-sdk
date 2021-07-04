@@ -64,7 +64,7 @@ class Client
      * @param array $params
      * @return array
      */
-    protected function request(string $branch, array $params = []): array
+    public function request(string $branch, array $params = []): array
     {
         $response = '';
 

@@ -9,7 +9,7 @@ class Rating
     private Client $controller;
 
     /**
-     * User constructor.
+     * Rating constructor.
      * @param Client $controller
      */
     public function __construct(Client $controller)
@@ -18,6 +18,7 @@ class Rating
     }
 
     /**
+     * Gets information about the monthly rating.
      * @param string $clan
      * @param int $league
      * @param int $page
@@ -33,6 +34,7 @@ class Rating
     }
 
     /**
+     * Gets information about the rating of clans.
      * @return array
      */
     public function clan(): array
@@ -41,6 +43,7 @@ class Rating
     }
 
     /**
+     * Gets information about the TOP-100 rating.
      * @param int $class
      * @return array
      */

@@ -73,12 +73,11 @@ class Client
             $response = $getR->getBody();
         }
         catch (RequestException | GuzzleException $e) {
-            if ($e->hasResponse())
-            {
+            if ($e->hasResponse()) {
                 $getR = $e->getResponse();
                 $getB = $getR->getBody()->getContents();
 
-                if ($getR->getStatusCode() == '400') {
+                if ($getR->getStatusCode() === 400) {
                     throw new \DomainException(json_decode($getB, true)['message']);
                 }
             }

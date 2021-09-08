@@ -2,9 +2,10 @@
 
 namespace TestWarface;
 
-use Warface\{Client, Enums\Game\ClassesType, Enums\Game\Servers, Enums\Location};
+use Warface\{Client, Enums\Game\ClassesEnum, Enums\Location};
+use PHPUnit\Framework\TestCase;
 
-class TestClient extends \PHPUnit\Framework\TestCase
+class TestClient extends TestCase
 {
     public function testInvalidLocation()
     {
@@ -29,19 +30,29 @@ class TestClient extends \PHPUnit\Framework\TestCase
                 'catalog' => []
             ],
             'clan' => [
-                'members' => ['name' => 'Суприм']
+                'members' => [
+                    'name' => 'Репулс'
+                ]
             ],
             'game' => [
                 'missions' => []
             ],
             'rating' => [
-                'monthly' => ['name' => 'Манул'],
-                'clan'    => [],
-                'top100'  => ['class' => ClassesType::RIFLEMAN]
+                'monthly' => [
+                    'clan' => 'Манул'
+                ],
+                'clan' => [],
+                'top100' => [
+                    'class' => ClassesEnum::RIFLEMAN
+                ]
             ],
             'user' => [
-                'stat'         => ['name' => 'Элез'],
-                'achievements' => ['name' => 'Кломми']
+                'stat' => [
+                    'name' => 'Элез'
+                ],
+                'achievements' => [
+                    'name' => 'Пираний'
+                ]
             ],
             'weapon' => [
                 'catalog' => []

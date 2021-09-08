@@ -1,7 +1,7 @@
 {
     "name": "wnull/warface-api",
-    "version": "3.1.0",
-    "description": "",
+    "version": "3.1.2",
+    "description": "A fast Warface API client with all available game methods.",
     "type": "library",
     "license": "MIT",
     "require": {

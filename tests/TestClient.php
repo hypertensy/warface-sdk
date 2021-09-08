@@ -29,19 +29,19 @@ class TestClient extends \PHPUnit\Framework\TestCase
                 'catalog' => []
             ],
             'clan' => [
-                'members' => ['name' => 'Суприм', 'server' => Servers::ALPHA]
+                'members' => ['name' => 'Суприм']
             ],
             'game' => [
                 'missions' => []
             ],
             'rating' => [
-                'monthly' => ['server' => Servers::ALPHA, 'name' => 'Манул'],
-                'clan'    => ['server' => Servers::BRAVO],
-                'top100'  => ['server' => Servers::CHARLIE, 'class' => ClassesType::RIFLEMAN]
+                'monthly' => ['name' => 'Манул'],
+                'clan'    => [],
+                'top100'  => ['class' => ClassesType::RIFLEMAN]
             ],
             'user' => [
-                'stat'         => ['name' => 'Элез', 'server' => Servers::ALPHA],
-                'achievements' => ['name' => 'Кломми', 'server' => Servers::BRAVO]
+                'stat'         => ['name' => 'Элез'],
+                'achievements' => ['name' => 'Кломми']
             ],
             'weapon' => [
                 'catalog' => []

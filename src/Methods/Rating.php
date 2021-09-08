@@ -18,16 +18,14 @@ class Rating
     }
 
     /**
-     * @param int $server
      * @param string $clan
      * @param int $league
      * @param int $page
      * @return array
      */
-    public function monthly(int $server, string $clan, int $league = 0, int $page = 0): array
+    public function monthly(string $clan, int $league = 0, int $page = 0): array
     {
         return $this->controller->request('rating/monthly', [
-            'server' => $server,
             'clan'   => $clan,
             'league' => $league,
             'page'   => $page
@@ -35,25 +33,20 @@ class Rating
     }
 
     /**
-     * @param int $server
      * @return array
      */
-    public function clan(int $server): array
+    public function clan(): array
     {
-        return $this->controller->request('rating/clan', [
-            'server' => $server,
-        ]);
+        return $this->controller->request('rating/clan');
     }
 
     /**
-     * @param int $server
      * @param int $class
      * @return array
      */
-    public function top100(int $server, int $class = 0): array
+    public function top100(int $class = 0): array
     {
         return $this->controller->request('rating/top100', [
-            'server' => $server,
             'class'  => $class
         ]);
     }

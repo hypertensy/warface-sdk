@@ -19,14 +19,12 @@ class Clan
 
     /**
      * @param string $clan
-     * @param int $server
      * @return array
      */
-    public function members(string $clan, int $server): array
+    public function members(string $clan): array
     {
         return $this->controller->request('clan/members', [
-            'clan'   => $clan,
-            'server' => $server
+            'clan' => $clan
         ]);
     }
 }

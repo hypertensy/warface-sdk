@@ -19,15 +19,13 @@ class User
 
     /**
      * @param string $name
-     * @param int $server
      * @param int $format
      * @return array
      */
-    public function stat(string $name, int $server, int $format = 0): array
+    public function stat(string $name, int $format = 0): array
     {
         $get = $this->controller->request('user/stat', [
-            'name'   => $name,
-            'server' => $server
+            'name' => $name
         ]);
 
         switch ($format) {
@@ -44,14 +42,12 @@ class User
 
     /**
      * @param string $name
-     * @param int $server
      * @return array
      */
-    public function achievements(string $name, int $server): array
+    public function achievements(string $name): array
     {
         return $this->controller->request('user/achievements', [
-            'name'   => $name,
-            'server' => $server
+            'name' => $name
         ]);
     }
 }

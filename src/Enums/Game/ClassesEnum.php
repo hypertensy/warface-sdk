@@ -2,7 +2,7 @@
 
 namespace Warface\Enums\Game;
 
-class ClassesType
+class ClassesEnum
 {
     public const RIFLEMAN = 1;
     public const MEDIC = 2;

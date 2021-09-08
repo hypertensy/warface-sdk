@@ -9,7 +9,7 @@ class Achievement
     private Client $controller;
 
     /**
-     * User constructor.
+     * Achievement constructor.
      * @param Client $controller
      */
     public function __construct(Client $controller)
@@ -18,6 +18,7 @@ class Achievement
     }
 
     /**
+     * Gets a catalog of game achievements.
      * @param int $variant
      * @return array
      */

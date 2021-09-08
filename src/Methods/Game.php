@@ -9,7 +9,7 @@ class Game
     private Client $controller;
 
     /**
-     * User constructor.
+     * Game constructor.
      * @param Client $controller
      */
     public function __construct(Client $controller)
@@ -18,6 +18,7 @@ class Game
     }
 
     /**
+     * Gets extended information about the current PVE mission.
      * @return array
      */
     public function missions(): array

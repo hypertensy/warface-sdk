@@ -18,6 +18,7 @@ class User
     }
 
     /**
+     * Gets information about the player.
      * @param string $name
      * @param int $format
      * @return array
@@ -41,6 +42,7 @@ class User
     }
 
     /**
+     * Gets information about the player's achievements.
      * @param string $name
      * @return array
      */

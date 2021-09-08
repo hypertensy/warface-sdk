@@ -9,7 +9,7 @@ class Weapon
     private Client $controller;
 
     /**
-     * User constructor.
+     * Weapon constructor.
      * @param Client $controller
      */
     public function __construct(Client $controller)
@@ -18,6 +18,7 @@ class Weapon
     }
 
     /**
+     * Gets the catalog of game weapons.
      * @return array
      */
     public function catalog(): array

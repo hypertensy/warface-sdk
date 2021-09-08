@@ -9,13 +9,12 @@ use GuzzleHttp\{Exception\GuzzleException, Exception\RequestException};
 /**
  * Class Client
  * @package Warface
- *
- * @method Achievement achievement()
- * @method Clan clan()
- * @method Game game()
- * @method Rating rating()
- * @method User user()
- * @method Weapon weapon()
+ * @method Achievement achievement() Achievement branch
+ * @method Clan clan() Clan branch
+ * @method Game game() Game branch
+ * @method Rating rating() Rating branch
+ * @method User user() User branch
+ * @method Weapon weapon() Weapon branch
  */
 class Client
 {

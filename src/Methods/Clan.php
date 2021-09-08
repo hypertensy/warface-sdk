@@ -9,7 +9,7 @@ class Clan
     private Client $controller;
 
     /**
-     * User constructor.
+     * Clan constructor.
      * @param Client $controller
      */
     public function __construct(Client $controller)
@@ -18,6 +18,7 @@ class Clan
     }
 
     /**
+     * Gets information about the members of the clan.
      * @param string $clan
      * @return array
      */

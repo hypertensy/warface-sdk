@@ -2,7 +2,7 @@
 
 namespace Warface\Methods;
 
-use Warface\Client;
+use Warface\{Client, Utils\FullResponse};
 
 class User
 {
@@ -34,7 +34,8 @@ class User
                 unset($get['full_response']);
                 break;
             case 2:
-                // TODO: Implementation of parsing data from XML to ARRAY from the 'full_response' parameter
+                $utils = new FullResponse();
+                $get['full_response'] = $utils->format($get['full_response']);
                 break;
         }
 

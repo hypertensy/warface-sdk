@@ -2,9 +2,8 @@
 
 namespace Warface;
 
-use Warface\Enums\{Location, ErrorMsg};
+use Warface\Enums\{Locale, ErrorMsg};
 use Warface\Methods\{Achievement, Clan, Game, Rating, User, Weapon};
-use GuzzleHttp\{Exception\GuzzleException, Exception\RequestException};
 
 /**
  * Class Client
@@ -18,31 +17,28 @@ use GuzzleHttp\{Exception\GuzzleException, Exception\RequestException};
  */
 class Client
 {
-    private \GuzzleHttp\Client $client;
-
-    private string $location;
+    private string $locale;
 
     private array $locations = [
-        Location::RU => 'http://api.warface.ru/',
-        Location::EN => 'http://api.wf.my.com/'
+        Locale::CIS           => 'http://api.warface.ru/',
+        Locale::INTERNATIONAL => 'http://api.wf.my.com/'
     ];
 
     /**
      * Client constructor.
-     * @param string $location
+     * @param string $locale
      */
-    public function __construct(string $location = Location::RU)
+    public function __construct(string $locale = Locale::CIS)
     {
-        $this->location = $location;
-
-        if (!(isset($location) && isset($this->locations[$location]))) {
+        if (! isset($this->locations[$locale])) {
             throw new \InvalidArgumentException(ErrorMsg::REGION);
         }
 
-        $this->client = new \GuzzleHttp\Client(['base_uri' => $this->locations[$location]]);
+        $this->locale = $locale;
     }
 
     /**
+     * A magic method for calling the method of the required API branch.
      * @param string $name
      * @param array $arguments
      * @return mixed
@@ -51,7 +47,7 @@ class Client
     {
         $class = __NAMESPACE__ . "\Methods\\" . ucfirst($name);
 
-        if (!class_exists($class)) {
+        if (! class_exists($class)) {
             throw new \RuntimeException(ErrorMsg::BRANCH);
         }
 
@@ -59,29 +55,42 @@ class Client
     }
 
     /**
+     * Makes a request to the API and returns the processed result.
      * @param string $branch
      * @param array $params
+     * @return mixed
+     */
+    public function request(string $branch, array $params = [])
+    {
+        $ch = curl_init();
+
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $this->locations[$this->locale] . $branch . '?' . http_build_query($params),
+            CURLOPT_RETURNTRANSFER => true
+        ]);
+
+        $content = curl_exec($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        curl_close($ch);
+
+        if ($code === 200 || $code === 400) {
+            return json_decode($content, true);
+        }
+        else {
+            throw new \DomainException(ErrorMsg::UNKNOWN);
+        }
+    }
+
+    /**
+     * Returns information about the current locale.
      * @return array
      */
-    public function request(string $branch, array $params = []): array
+    public function session(): array
     {
-        $response = '';
-
-        try {
-            $getR = $this->client->get($branch, ['query' => $params]);
-            $response = $getR->getBody();
-        }
-        catch (RequestException | GuzzleException $e) {
-            if ($e->hasResponse()) {
-                $getR = $e->getResponse();
-                $getB = $getR->getBody()->getContents();
-
-                if ($getR->getStatusCode() === 400) {
-                    throw new \DomainException(json_decode($getB, true)['message']);
-                }
-            }
-        }
-
-        return array_merge(json_decode($response, true), ['location' => $this->location]);
+        return [
+            'locale'   => $this->locale,
+            'location' => $this->locations[$this->locale]
+        ];
     }
 }

@@ -14,6 +14,12 @@ $ composer require wnull/warface-api
 
 ## Using
 
+To change the location, you need to pass the desired value to the class constructor. By default, there is a location for CIS.
+```php
+$client = new Warface\Client(Warface\Enums\Locale::CIS); // Russian servers
+$client = new Warface\Client(Warface\Enums\Locale::INTERNATIONAL); // Europe servers
+```
+
 A simple example of the `stat()` method.
 
 ```php

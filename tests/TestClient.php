@@ -2,7 +2,7 @@
 
 namespace TestWarface;
 
-use Warface\{Client, Enums\Game\ClassesEnum, Enums\Location};
+use Warface\{Client, Enums\Game\ClassesEnum, Enums\Locale};
 use PHPUnit\Framework\TestCase;
 
 class TestClient extends TestCase
@@ -17,7 +17,7 @@ class TestClient extends TestCase
 
     public function testValidLocation()
     {
-        $validLocations = [Location::RU, Location::EN];
+        $validLocations = [Locale::CIS, Locale::INTERNATIONAL];
 
         new Client($validLocations[array_rand($validLocations)]);
         $this->assertTrue(true);

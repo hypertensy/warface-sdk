@@ -9,7 +9,7 @@ A fast Warface API client with all available game methods.
 Via Composer:
 
 ```shell
-$ composer require wnull/warface-ub
+$ composer require wnull/warface-api
 ```
 
 ## Using

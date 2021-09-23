@@ -105,7 +105,9 @@ $top100 = $client->rating()->top100(Warface\Enums\Game\ClassesEnum::MEDIC);
 
 ### User methods
 
-The `stat()` method accepts the **required** `nickname` parameter and **optional** parameter `format`, somehow uses the `full_response` field, takes the value `1` or `2`.
+The `stat()` method accepts the 1 **required** parameter `nickname` and 1 **optional** parameter `format`. 
+
+The `format` parameter interacts with the `full_response` field.
 
 Returns extended information about the player.
 

@@ -2,6 +2,11 @@
 
 A fast Warface API SDK library.
 
+## References
+
+- [Official API documentation](https://ru.warface.com/wiki/index.php/API)
+- [SDK Documentation](docs)
+
 ## Installation
 
 Via Composer:
@@ -10,43 +15,7 @@ Via Composer:
 $ composer require wnull/warface-api
 ```
 
-## Using
-
-To change the location, you need to pass the desired value to the class constructor. The default location is the CIS.
-```php
-$client = new Warface\Client(Warface\Enums\Locale::CIS); // Russian servers
-$client = new Warface\Client(Warface\Enums\Locale::INTERNATIONAL); // Europe servers
-```
-
-## Branches and methods with examples
-```php
-# Init client
-$client = new Warface\Client();
-
-# Achievement branch
-$catalog = $client->achievement()->catalog();
-
-# Clan branch
-$members = $client->clan()->members('<clan_name>');
-
-# Game branch
-$missions = $client->game()->missions();
-
-# Rating branch
-$monthly = $client->rating()->monthly('<clan_name>');
-$clan = $client->rating()->clan();
-$top100 = $client->rating()->top100();
-
-# User branch
-$stat = $client->user()->stat('<nickname>');
-$achievements = $client->user()->achievements('<nickname>');
-
-# Weapon branch
-$catalog = $client->weapon()->catalog();
-```
-
 ## License
 
 [MIT](LICENSE)
-
 

@@ -95,17 +95,17 @@ Returns information about the TOP-100 rating of players. When specifying a param
 $client = new Warface\Client();
 $top100 = $client->rating()->top100();
 
-/** 
+/**
  * Five game classes are allowed: Rifleman, Medic, Engineer, Sniper, SED
- * 
- * @see Warface\Enums\Game\ClassesEnum 
+ *
+ * @see Warface\Enums\Game\ClassesEnum
  */
 $top100 = $client->rating()->top100(Warface\Enums\Game\ClassesEnum::MEDIC);
 ```
 
 ### User methods
 
-The `stat()` method accepts the 1 **required** parameter `nickname` and 1 **optional** parameter `format`. 
+The `stat()` method accepts the 1 **required** parameter `nickname` and 1 **optional** parameter `format`.
 
 The `format` parameter interacts with the `full_response` field.
 
@@ -114,20 +114,20 @@ Returns extended information about the player.
 ```php
 $client = new Warface\Client();
 
-/** 
- * By default, the value is 0, and the data comes from the API in raw form. 
+/**
+ * By default, the value is 0, and the data comes from the API in raw form.
  */
 $stat = $client->user()->stat('<nickname>');
 
-/** 
- * If you pass the value 1, this field `full_response` will be deleted. 
+/**
+ * If you pass the value 1, this field `full_response` will be deleted.
  */
 $stat = $client->user()->stat('<nickname>', 1);
 
-/** 
- * If you pass the value 2, the field `full_response` data will be recursively 
- * processed into an array and returned with the main fields. 
- * 
+/**
+ * If you pass the value 2, the field `full_response` data will be recursively
+ * processed into an array and returned with the main fields.
+ *
  * @see Warface\Utils\FullResponse
  */
 $stat = $client->user()->stat('<nickname>', 2);

@@ -4,6 +4,8 @@
 
 A fast Warface API SDK library.
 
+> :warning: Recently, the game API server switched to a secure connection, if you have problems receiving data, then replace the protocol with HTTPS.
+
 ## References
 
 - [Official API documentation](https://ru.warface.com/wiki/index.php/API)

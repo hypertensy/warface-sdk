@@ -20,8 +20,8 @@ class Client
 	private string $locale;
 
 	private array $locations = [
-		Locale::CIS           => 'http://api.warface.ru/',
-		Locale::INTERNATIONAL => 'http://api.wf.my.com/'
+		Locale::CIS           => 'https://api.warface.ru/',
+		Locale::INTERNATIONAL => 'https://api.wf.my.com/'
 	];
 
 	/**

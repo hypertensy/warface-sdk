@@ -1,4 +1,6 @@
-# Warface API SDK for PHP [![Travis (.org)](https://img.shields.io/travis/wnull/warface-api)](https://travis-ci.com/wnull/warface-api) ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/wnull/warface-api)
+# Warface API SDK for PHP
+
+[![Travis (.org)](https://img.shields.io/travis/wnull/warface-api)](https://travis-ci.com/wnull/warface-api) ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/wnull/warface-api)
 
 A fast Warface API SDK library.
 

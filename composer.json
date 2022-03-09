@@ -1,6 +1,6 @@
 {
 	"name": "wnull/warface-api",
-	"version": "3.2.7",
+	"version": "3.2.8",
 	"description": "A fast Warface API SDK library.",
 	"type": "library",
 	"license": "MIT",

@@ -1,6 +1,6 @@
 # Warface API SDK for PHP
 
-[![Travis (.org)](https://img.shields.io/travis/morepusto/warface-api)](https://travis-ci.com/wnull/warface-api) ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/wnull/warface-api)
+[![Travis (.org)](https://img.shields.io/travis/wnull/warface-api)](https://travis-ci.com/wnull/warface-api) ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/wnull/warface-api)
 
 A fast Warface API SDK library.
 
@@ -23,8 +23,8 @@ $ composer require wnull/warface-api
 
 To change the location, you need to pass the desired value to the class constructor. The default location is the CIS.
 ```php
-$client = new Warface\Client(Warface\Enums\Locale::CIS); // Russian servers
-$client = new Warface\Client(Warface\Enums\Locale::INTERNATIONAL); // Europe servers
+$client = new Warface\Client(WarfaceTypes\Location::CIS); // Russian servers
+$client = new Warface\Client(WarfaceTypes\Location::INTERNATIONAL); // Europe servers
 ```
 
 Detailed documentation of the library methods. Each of the methods returns data as an associative array.
@@ -104,7 +104,7 @@ $top100 = $client->rating()->top100();
  *
  * @see Warface\Enums\Game\ClassesEnum
  */
-$top100 = $client->rating()->top100(Warface\Enums\Game\ClassesEnum::MEDIC);
+$top100 = $client->rating()->top100(WarfaceTypes\ClassesEnum::MEDIC);
 ```
 
 ### User methods

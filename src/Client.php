@@ -2,8 +2,8 @@
 
 namespace Warface;
 
-use Warface\Enums\{Locale, ErrorMsg};
 use Warface\Methods\{Achievement, Clan, Game, Rating, User, Weapon};
+use WarfaceTypes\Location;
 
 /**
  * Class Client
@@ -20,18 +20,18 @@ class Client
 	private string $locale;
 
 	private array $locations = [
-		Locale::CIS           => 'https://api.warface.ru/',
-		Locale::INTERNATIONAL => 'https://api.wf.my.com/'
+		Location::CIS           => 'https://api.warface.ru/',
+		Location::INTERNATIONAL => 'https://api.wf.my.com/'
 	];
 
 	/**
 	 * Client constructor.
 	 * @param string $locale
 	 */
-	public function __construct(string $locale = Locale::CIS)
+	public function __construct(string $locale = Location::CIS)
 	{
 		if (! isset($this->locations[$locale])) {
-			throw new \InvalidArgumentException(ErrorMsg::REGION);
+			throw new \InvalidArgumentException('Invalid region specified');
 		}
 
 		$this->locale = $locale;
@@ -48,7 +48,7 @@ class Client
 		$class = __NAMESPACE__ . "\Methods\\" . ucfirst($name);
 
 		if (! class_exists($class)) {
-			throw new \RuntimeException(ErrorMsg::BRANCH);
+			throw new \RuntimeException('The called branch does not exist');
 		}
 
 		return new $class($this);
@@ -76,21 +76,8 @@ class Client
 
 		if ($code === 200 || $code === 400) {
 			return json_decode($content, true);
+		} else {
+			throw new \DomainException('API connection error');
 		}
-		else {
-			throw new \DomainException(ErrorMsg::UNKNOWN);
-		}
-	}
-
-	/**
-	 * Returns information about the current locale.
-	 * @return array
-	 */
-	public function session(): array
-	{
-		return [
-			'locale'   => $this->locale,
-			'location' => $this->locations[$this->locale]
-		];
 	}
 }

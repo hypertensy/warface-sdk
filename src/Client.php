@@ -26,7 +26,6 @@ class Client
 
 	private ?string $proxyIp = null;
 	private ?string $proxyAuth = null;
-	private ?string $proxyType = null;
 
 	/**
 	 * Client constructor.

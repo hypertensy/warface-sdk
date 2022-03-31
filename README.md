@@ -27,6 +27,22 @@ $client = new Warface\Client(WarfaceTypes\Location::CIS); // Russian servers
 $client = new Warface\Client(WarfaceTypes\Location::INTERNATIONAL); // Europe servers
 ```
 
+### Proxy
+
+The proxy connection type is HTTP.
+
+Common use:
+```php
+$client->proxy('<ip>:<port>');
+```
+
+Use with authorization:
+```php
+$client->proxy('<ip>:<port>', '<user>:<pass>');
+```
+
+### List of methods
+
 Detailed documentation of the library methods. Each of the methods returns data as an associative array.
 
 Go to the branch methods:

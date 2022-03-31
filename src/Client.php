@@ -24,6 +24,10 @@ class Client
 		Location::INTERNATIONAL => 'https://api.wf.my.com/'
 	];
 
+	private ?string $proxyIp = null;
+	private ?string $proxyAuth = null;
+	private ?string $proxyType = null;
+
 	/**
 	 * Client constructor.
 	 * @param string $locale
@@ -55,6 +59,17 @@ class Client
 	}
 
 	/**
+	 * Setter a proxy
+	 * @param string $ip
+	 * @param ?string $auth
+	 */
+	public function proxy(string $ip, string $auth = null): void
+	{
+		$this->proxyIp ??= $ip;
+		$this->proxyAuth ??= $auth;
+	}
+
+	/**
 	 * Makes a request to the API and returns the processed result.
 	 * @param string $branch
 	 * @param array $params
@@ -64,10 +79,11 @@ class Client
 	{
 		$ch = curl_init();
 
-		curl_setopt_array($ch, [
-			CURLOPT_URL => $this->locations[$this->locale] . $branch . '?' . http_build_query($params),
-			CURLOPT_RETURNTRANSFER => true
-		]);
+		curl_setopt($ch, CURLOPT_URL, $this->locations[$this->locale] . $branch . '?' . http_build_query($params));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+		if ($this->proxyIp) curl_setopt($ch, CURLOPT_PROXY, $this->proxyIp);
+		if ($this->proxyAuth) curl_setopt($ch, CURLOPT_PROXYUSERPWD, $this->proxyAuth);
 
 		$content = curl_exec($ch);
 		$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);

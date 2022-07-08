@@ -2,7 +2,7 @@
 
 namespace Warface\Methods;
 
-use Warface\{Client, Utils\FullResponse};
+use Warface\{Client, Enums\Filter, Utils\FullResponse};
 
 class User
 {
@@ -30,10 +30,10 @@ class User
 		]);
 
 		switch ($format) {
-			case 1:
+			case Filter::REMOVE_RESPONSE_FULL_FIELD:
 				unset($get['full_response']);
 				break;
-			case 2:
+			case Filter::TO_ARRAY_RESPONSE_FULL_FIELD:
 				$utils = new FullResponse();
 				$get['full_response'] = $utils->format($get['full_response']);
 				break;

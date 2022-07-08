@@ -4,8 +4,6 @@
 
 A fast Warface API SDK library.
 
-> :warning: Recently, the game API server switched to a secure connection, if you have problems receiving data, then replace the protocol with HTTPS.
-
 ## References
 
 - [Official API documentation](https://ru.warface.com/wiki/index.php/API)
@@ -19,7 +17,7 @@ Via Composer:
 $ composer require wnull/warface-api
 ```
 
-## Using
+## Initialization
 
 To change the location, you need to pass the desired value to the class constructor. The default location is the CIS.
 ```php
@@ -27,23 +25,19 @@ $client = new Warface\Client(WarfaceTypes\Location::CIS); // Russian servers
 $client = new Warface\Client(WarfaceTypes\Location::INTERNATIONAL); // Europe servers
 ```
 
-### Proxy
+## Proxy settings
 
 The proxy connection type is HTTP.
 
-Common use:
 ```php
+$client = new Warface\Client();
+// Default use
 $client->proxy('<ip>:<port>');
-```
-
-Use with authorization:
-```php
+// Use with authorization
 $client->proxy('<ip>:<port>', '<user>:<pass>');
 ```
 
-### List of methods
-
-Detailed documentation of the library methods. Each of the methods returns data as an associative array.
+## Methods API
 
 Go to the branch methods:
 
@@ -52,7 +46,7 @@ Go to the branch methods:
 - [Game](#game-methods)
 - [Rating](#rating-methods)
 - [User](#user-methods)
-- [Weapon](#weapon-branch)
+- [Weapon](#weapon-methods)
 
 ### Achievement methods
 
@@ -142,7 +136,7 @@ $stat = $client->user()->stat('<nickname>');
 /**
  * If you pass the value 1, this field `full_response` will be deleted.
  */
-$stat = $client->user()->stat('<nickname>', 1);
+$stat = $client->user()->stat('<nickname>', Warface\Enums\Filter::REMOVE_RESPONSE_FULL_FIELD);
 
 /**
  * If you pass the value 2, the field `full_response` data will be recursively
@@ -150,7 +144,7 @@ $stat = $client->user()->stat('<nickname>', 1);
  *
  * @see Warface\Utils\FullResponse
  */
-$stat = $client->user()->stat('<nickname>', 2);
+$stat = $client->user()->stat('<nickname>', Warface\Enums\Filter::TO_ARRAY_RESPONSE_FULL_FIELD);
 ```
 
 The `achievements()` method accepts the **required** `nickname` parameter.
@@ -162,7 +156,7 @@ $client = new Warface\Client();
 $achievements = $client->user()->achievements('<nickname>');
 ```
 
-### Weapon branch
+### Weapon methods
 
 The `catalog()` method does not accept arguments.
 

@@ -21,7 +21,7 @@ class FullResponse
             $item = str_replace(['[', ']'], ['', ' '], $item);
             [$key, $value] = explode('  = ', $item);
 
-            static::makeIt($result, $key, $value);
+            static::makeIt($result, $key, +$value);
         }
 
         return $result;
@@ -46,6 +46,6 @@ class FullResponse
             $result = &$result[$current];
         }
 
-        $result[$last] = +$value;
+        $result[$last] = $value;
     }
 }

@@ -1,41 +1,51 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Warface\Utils;
 
 class FullResponse
 {
-	/**
-	 * Recursively converts text data into an array.
-	 * @param string $data
-	 * @return array
-	 */
-	public function format(string $data): array
-	{
-		$make = function (array &$result, string $key, int $value) {
-			$keys = explode(' ', $key);
-			$last = array_pop($keys);
+    /**
+     * Recursively converts raw data into an array.
+     *
+     * @param string $data
+     * @return array
+     */
+    public static function format(string $data): array
+    {
+        $items = array_filter(array_map('trim', explode('<Sum>', $data)));
 
-			while ($current = array_shift($keys))
-			{
-				if (! array_key_exists($current, $result)) {
-					$result[$current] = [];
-				}
+        $result = [];
+        foreach ($items as $item) {
+            $item = str_replace(['[', ']'], ['', ' '], $item);
+            [$key, $value] = explode('  = ', $item);
 
-				$result = &$result[$current];
-			}
+            static::makeIt($result, $key, $value);
+        }
 
-			$result[$last] = +$value;
-		};
+        return $result;
+    }
 
-		$items = array_filter(array_map('trim', explode('<Sum>', $data)));
+    /**
+     * @param array $result
+     * @param string $key
+     * @param int $value
+     */
+    private static function makeIt(array &$result, string $key, int $value)
+    {
+        $keys = explode(' ', $key);
+        $last = array_pop($keys);
 
-		$result = [];
-		foreach ($items as $item) {
-			$item = str_replace(['[', ']'], ['', ' '], $item);
-			[$key, $value] = explode('  = ', $item);
-			$make($result, $key, +$value);
-		}
+        while ($current = array_shift($keys))
+        {
+            if (! array_key_exists($current, $result)) {
+                $result[$current] = [];
+            }
 
-		return $result;
-	}
+            $result = &$result[$current];
+        }
+
+        $result[$last] = +$value;
+    }
 }

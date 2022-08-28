@@ -21,8 +21,8 @@ $ composer require wnull/warface-api
 
 To change the location, you need to pass the desired value to the class constructor. The default location is the CIS.
 ```php
-$client = new Warface\Client(WarfaceTypes\Location::CIS); // Russian servers
-$client = new Warface\Client(WarfaceTypes\Location::INTERNATIONAL); // Europe servers
+$client = new Warface\Client(Warface\Enums\Location\Region::CIS); // Russian servers
+$client = new Warface\Client(Warface\Enums\Location\Region::INTERNATIONAL); // Europe servers
 ```
 
 ## Proxy settings
@@ -112,9 +112,9 @@ $top100 = $client->rating()->top100();
 /**
  * Five game classes are allowed: Rifleman, Medic, Engineer, Sniper, SED
  *
- * @see Warface\Enums\Game\ClassesEnum
+ * @see Warface\Enums\Classes\Enumeration
  */
-$top100 = $client->rating()->top100(WarfaceTypes\ClassesEnum::MEDIC);
+$top100 = $client->rating()->top100(Warface\Enums\Classes\Enumeration::MEDIC);
 ```
 
 ### User methods

@@ -1,14 +1,13 @@
 {
 	"name": "wnull/warface-api",
-	"version": "3.3.8",
+	"version": "4.0.0",
 	"description": "A fast Warface API SDK library.",
 	"type": "library",
 	"license": "MIT",
 	"require": {
 		"php": "^7.4 || ^8.0",
 		"ext-json": "*",
-		"ext-curl": "*",
-		"wnull/warface-types": "^1.0.5"
+		"ext-curl": "*"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "^9.5.1"

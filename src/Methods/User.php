@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace Warface\Methods;
 
 use Warface\Client;
-use Warface\Enums\Filter;
+use Warface\Interfaces\Methods\UserInterface;
 use Warface\Utils\FullResponse;
 
-class User
+class User implements UserInterface
 {
     private Client $controller;
 
     /**
-     * User constructor.
-     *
      * @param Client $controller
      */
     public function __construct(Client $controller)
@@ -23,24 +21,27 @@ class User
     }
 
     /**
-     * Gets information about the player.
-     *
      * @param string $name
      * @param int $format
      * @return array
      */
-    public function stat(string $name, int $format = 0): array
+    public function stat(string $name, int $format = FullResponse::ABSENCE_MUTATION_FULL_FIELD): array
     {
         $get = $this->controller->request('user/stat', [
             'name' => $name
         ]);
 
         switch ($format) {
-            case Filter::REMOVE_RESPONSE_FULL_FIELD:
+            case FullResponse::TO_ARRAY_RESPONSE_FULL_FIELD:
+                $get['full_response'] = FullResponse::format($get['full_response']);
+                break;
+
+            case FullResponse::REMOVE_RESPONSE_FULL_FIELD:
                 unset($get['full_response']);
                 break;
-            case Filter::TO_ARRAY_RESPONSE_FULL_FIELD:
-                $get['full_response'] = FullResponse::format($get['full_response']);
+
+            case FullResponse::ABSENCE_MUTATION_FULL_FIELD:
+            default:
                 break;
         }
 
@@ -48,8 +49,6 @@ class User
     }
 
     /**
-     * Gets information about the player's achievements.
-     *
      * @param string $name
      * @return array
      */

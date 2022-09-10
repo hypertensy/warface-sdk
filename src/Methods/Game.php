@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Warface\Methods;
 
 use Warface\Client;
+use Warface\Interfaces\Methods\GameInterface;
 
-class Game
+class Game implements GameInterface
 {
     private Client $controller;
 
     /**
-     * Game constructor.
-     *
      * @param Client $controller
      */
     public function __construct(Client $controller)
@@ -21,8 +20,6 @@ class Game
     }
 
     /**
-     * Gets extended information about the current PVE mission.
-     *
      * @return array
      */
     public function missions(): array

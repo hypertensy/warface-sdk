@@ -4,8 +4,20 @@ declare(strict_types=1);
 
 namespace Warface\Utils;
 
+use function array_filter;
+use function array_key_exists;
+use function array_map;
+use function array_pop;
+use function array_shift;
+use function explode;
+use function str_replace;
+
 class FullResponse
 {
+    public const ABSENCE_MUTATION_FULL_FIELD  = 0;
+    public const REMOVE_RESPONSE_FULL_FIELD   = 1;
+    public const TO_ARRAY_RESPONSE_FULL_FIELD = 2;
+
     /**
      * Recursively converts raw data into an array.
      *

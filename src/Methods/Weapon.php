@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Warface\Methods;
 
 use Warface\Client;
+use Warface\Interfaces\Methods\WeaponInterface;
 
-class Weapon
+class Weapon implements WeaponInterface
 {
     private Client $controller;
 
     /**
-     * Weapon constructor.
-     *
      * @param Client $controller
      */
     public function __construct(Client $controller)
@@ -21,8 +20,6 @@ class Weapon
     }
 
     /**
-     * Gets the catalog of game weapons.
-     *
      * @return array
      */
     public function catalog(): array

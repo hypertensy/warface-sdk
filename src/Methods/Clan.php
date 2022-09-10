@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Warface\Methods;
 
 use Warface\Client;
+use Warface\Interfaces\Methods\ClanInterface;
 
-class Clan
+class Clan implements ClanInterface
 {
     private Client $controller;
 
     /**
-     * Clan constructor.
-     *
      * @param Client $controller
      */
     public function __construct(Client $controller)
@@ -21,8 +20,6 @@ class Clan
     }
 
     /**
-     * Gets information about the members of the clan.
-     *
      * @param string $clan
      * @return array
      */

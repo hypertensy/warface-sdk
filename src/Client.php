@@ -4,8 +4,21 @@ declare(strict_types=1);
 
 namespace Warface;
 
+use JsonException;
+use Warface\Enums\Http\Response;
 use Warface\Enums\Location\Region;
-use Warface\Enums\Location\Servers;
+use Warface\Enums\Location\Server;
+use Warface\Exceptions\ExecuteException;
+use Warface\Exceptions\RequestException;
+use Warface\Exceptions\ValidationException;
+use Warface\Interfaces\ClientInterface;
+use Warface\Interfaces\MethodInterface;
+use Warface\Interfaces\Methods\AchievementInterface;
+use Warface\Interfaces\Methods\ClanInterface;
+use Warface\Interfaces\Methods\GameInterface;
+use Warface\Interfaces\Methods\RatingInterface;
+use Warface\Interfaces\Methods\UserInterface;
+use Warface\Interfaces\Methods\WeaponInterface;
 use Warface\Methods\Achievement;
 use Warface\Methods\Clan;
 use Warface\Methods\Game;
@@ -13,110 +26,65 @@ use Warface\Methods\Rating;
 use Warface\Methods\User;
 use Warface\Methods\Weapon;
 
-/**
- * Class Client
- *
- * @package Warface
- * @method Achievement achievement() Achievement branch
- * @method Clan clan() Clan branch
- * @method Game game() Game branch
- * @method Rating rating() Rating branch
- * @method User user() User branch
- * @method Weapon weapon() Weapon branch
- */
-class Client
-{
-    /**
-     * Current locale
-     *
-     * @var string $locale
-     */
-    private string $locale;
+use function sprintf;
+use function json_decode;
 
-    /**
-     * Configuration of regions with hosts
-     *
-     * @var array
-     */
-    private array $locations = [
-        Region::CIS           => Servers::CIS,
-        Region::INTERNATIONAL => Servers::INTERNATIONAL
-    ];
+class Client implements ClientInterface, MethodInterface
+{
+    public static bool $throwOnBadRequest = false;
 
     private ?string $proxyIp = null;
     private ?string $proxyAuth = null;
 
+    private string $locale;
+
+    private array $locations = [
+        Region::CIS => Server::CIS,
+        Region::INTERNATIONAL => Server::INTERNATIONAL
+    ];
+
     /**
-     * Client constructor.
-     *
      * @param string $locale
      */
     public function __construct(string $locale = Region::CIS)
     {
-        if (! isset($this->locations[$locale])) {
-            throw new \InvalidArgumentException('Invalid region specified');
+        if (!isset($this->locations[$locale])) {
+            throw new ValidationException('Invalid region specified');
         }
 
         $this->locale = $locale;
     }
 
     /**
-     * A magic method for calling the method of the required API branch.
-     *
-     * @param string $name
-     * @param array $arguments
-     * @return mixed
-     */
-    public function __call(string $name, array $arguments)
-    {
-        $class = sprintf('%s\Methods\%s', __NAMESPACE__, ucfirst($name));
-
-        if (! class_exists($class)) {
-            throw new \RuntimeException('The called branch does not exist');
-        }
-
-        return new $class($this);
-    }
-
-    /**
-     * Setter a proxy
-     *
      * @param string $ip
-     * @param ?string $auth
+     * @param string|null $auth
      */
-    public function proxy(string $ip, string $auth = null): void
+    public function setProxy(string $ip, string $auth = null): void
     {
         $this->proxyIp ??= $ip;
         $this->proxyAuth ??= $auth;
     }
 
     /**
-     * Makes a request to the API and returns the processed result.
-     *
      * @param string $branch
      * @param array $params
-     * @return mixed
+     * @return array
      */
     public function request(string $branch, array $params = []): array
     {
         $ch = curl_init();
 
-        $endpoint = sprintf(
-            'https://%s/%s?%s',
-            $this->locations[$this->locale],
-            $branch,
-            http_build_query($params)
-        );
+        $endpoint = sprintf('https://%s/%s?%s', $this->locations[$this->locale], $branch, http_build_query($params));
 
         curl_setopt($ch, CURLOPT_URL, $endpoint);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         if ($this->proxyIp) {
             curl_setopt($ch, CURLOPT_PROXY, $this->proxyIp);
-        }
 
-        if ($this->proxyAuth) {
-            curl_setopt($ch, CURLOPT_PROXYUSERPWD, $this->proxyAuth);
+            if ($this->proxyAuth) {
+                curl_setopt($ch, CURLOPT_PROXYUSERPWD, $this->proxyAuth);
+            }
         }
 
         $content = curl_exec($ch);
@@ -124,10 +92,66 @@ class Client
 
         curl_close($ch);
 
-        if ($code === 200 || $code === 400) {
-            return json_decode($content, true);
-        } else {
-            throw new \DomainException('API connection error');
+        if (!in_array($code, [Response::OK, Response::BAD_REQUEST], true)) {
+            throw new RequestException('API Server error. Error code: ' . $code);
         }
+
+        if (self::$throwOnBadRequest && $code === Response::BAD_REQUEST) {
+            throw new RequestException('Bad request: ' . $code);
+        }
+
+        try {
+            return json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            throw new ExecuteException($e->getMessage());
+        }
+    }
+
+    /**
+     * @return AchievementInterface
+     */
+    public function achievement(): AchievementInterface
+    {
+        return new Achievement($this);
+    }
+
+    /**
+     * @return ClanInterface
+     */
+    public function clan(): ClanInterface
+    {
+        return new Clan($this);
+    }
+
+    /**
+     * @return GameInterface
+     */
+    public function game(): GameInterface
+    {
+        return new Game($this);
+    }
+
+    /**
+     * @return RatingInterface
+     */
+    public function rating(): RatingInterface
+    {
+        return new Rating($this);
+    }
+
+    /**
+     * @return UserInterface
+     */
+    public function user(): UserInterface
+    {
+        return new User($this);
+    }
+
+    /**
+     * @return WeaponInterface
+     */
+    public function weapon(): WeaponInterface
+    {
+        return new Weapon($this);
     }
 }

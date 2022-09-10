@@ -7,7 +7,7 @@ namespace Warface\Interfaces\Methods;
 interface GameInterface
 {
     /**
-     * Gets extended information about the current PVE mission.
+     * This method returns detailed information about available missions and rewards for completing.
      *
      * @return array
      */

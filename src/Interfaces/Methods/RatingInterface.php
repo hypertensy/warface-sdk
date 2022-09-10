@@ -10,7 +10,12 @@ use Warface\Enums\League;
 interface RatingInterface
 {
     /**
-     * Gets information about the monthly rating.
+     * This method returns the monthly rating.
+     *
+     * If the $clan parameter is used, the response from the server will contain data about the selected clan, it will
+     * also indicate exactly the league in which this clan is located even if it was not selected in the $league.
+     *
+     * If only the $league parameter is used, the server will return the top 100 for that league.
      *
      * @param string|null $clan
      * @param int $league
@@ -20,14 +25,16 @@ interface RatingInterface
     public function monthly(?string $clan = null, int $league = League::ELITE_LEAGUE, int $page = 0): array;
 
     /**
-     * Gets information about the rating of clans.
+     * This method returns information about the rating of clans.
      *
      * @return array
      */
     public function clan(): array;
 
     /**
-     * Gets information about the TOP-100 rating.
+     * This method returns a TOP-100 rating.
+     *
+     * If the parameter $class is not specified, the data gets for all classes.
      *
      * @param int $class
      * @return array

@@ -7,7 +7,7 @@ namespace Warface\Interfaces\Methods;
 interface UserInterface
 {
     /**
-     * Gets information about the player.
+     * This method returns player statistics.
      *
      * @param string $name
      * @param int $format
@@ -15,9 +15,8 @@ interface UserInterface
      */
     public function stat(string $name, int $format = 0): array;
 
-
     /**
-     * Gets information about the player's achievements.
+     * This method returns data about the player's achievements.
      *
      * @param string $name
      * @return array

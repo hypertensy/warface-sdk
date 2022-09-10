@@ -7,7 +7,7 @@ namespace Warface\Interfaces\Methods;
 interface ClanInterface
 {
     /**
-     * Gets information about the members of the clan.
+     * This method returns information about the clan.
      *
      * @param string $clan
      * @return array

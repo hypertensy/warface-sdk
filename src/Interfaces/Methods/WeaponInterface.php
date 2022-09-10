@@ -7,7 +7,7 @@ namespace Warface\Interfaces\Methods;
 interface WeaponInterface
 {
     /**
-     * Gets the catalog of game weapons.
+     * This method returns a complete list of items available in the game, with their id and name.
      *
      * @return array
      */

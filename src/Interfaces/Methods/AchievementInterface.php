@@ -7,7 +7,7 @@ namespace Warface\Interfaces\Methods;
 interface AchievementInterface
 {
     /**
-     * Gets a catalog of game achievements.
+     * This method returns a complete list of achievements available in the game, with their id and name.
      *
      * @return array
      */

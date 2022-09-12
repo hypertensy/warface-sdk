@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Warface\Utils;
+namespace Warface\Helpers;
 
 use function array_filter;
 use function array_key_exists;
@@ -14,7 +14,7 @@ use function str_replace;
 
 class FullResponse
 {
-    public const ABSENCE_MUTATION_FULL_FIELD  = 0;
+    public const DEFAULT_RESPONSE_FULL_FIELD  = 0;
     public const REMOVE_RESPONSE_FULL_FIELD   = 1;
     public const TO_ARRAY_RESPONSE_FULL_FIELD = 2;
 
@@ -33,7 +33,7 @@ class FullResponse
             $item = str_replace(['[', ']'], ['', ' '], $item);
             [$key, $value] = explode('  = ', $item);
 
-            static::makeIt($result, $key, +$value);
+            static::makeIt($result, $key, (int) $value);
         }
 
         return $result;

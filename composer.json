@@ -1,7 +1,7 @@
 {
     "name": "wnull/warface-api",
     "version": "4.0.0",
-    "description": "A fast Warface API SDK library.",
+    "description": "A fast, convenient and easy library for working with the Warface API written in PHP.",
     "type": "library",
     "license": "MIT",
     "require": {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Warface\Interfaces;
 
-interface ClientInterface
+interface RequestInterface
 {
     /**
      * @param string $branch

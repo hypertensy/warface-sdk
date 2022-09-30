@@ -14,9 +14,9 @@ use function str_replace;
 
 class FullResponse
 {
-    public const DEFAULT_RESPONSE_FULL_FIELD  = 0;
-    public const REMOVE_RESPONSE_FULL_FIELD   = 1;
-    public const TO_ARRAY_RESPONSE_FULL_FIELD = 2;
+    public const DEFAULT_TYPE  = 0;
+    public const REMOVE_TYPE   = 1;
+    public const TO_ARRAY_TYPE = 2;
 
     /**
      * Recursively converts raw data into an array.

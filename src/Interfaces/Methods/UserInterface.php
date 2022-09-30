@@ -15,7 +15,7 @@ interface UserInterface
      * @param int $formatFullResponse
      * @return array
      */
-    public function stat(string $name, int $formatFullResponse = FullResponse::DEFAULT_RESPONSE_FULL_FIELD): array;
+    public function stat(string $name, int $formatFullResponse = FullResponse::DEFAULT_TYPE): array;
 
     /**
      * This method returns player's achievements.

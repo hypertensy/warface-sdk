@@ -25,22 +25,22 @@ class User implements UserInterface
      * @param int $formatFullResponse
      * @return array
      */
-    public function stat(string $name, int $formatFullResponse = FullResponse::DEFAULT_RESPONSE_FULL_FIELD): array
+    public function stat(string $name, int $formatFullResponse = FullResponse::DEFAULT_TYPE): array
     {
         $get = $this->controller->request('user/stat', [
             'name' => $name
         ]);
 
         switch ($formatFullResponse) {
-            case FullResponse::TO_ARRAY_RESPONSE_FULL_FIELD:
+            case FullResponse::TO_ARRAY_TYPE:
                 $get['full_response'] = FullResponse::format($get['full_response']);
                 break;
 
-            case FullResponse::REMOVE_RESPONSE_FULL_FIELD:
+            case FullResponse::REMOVE_TYPE:
                 unset($get['full_response']);
                 break;
 
-            case FullResponse::DEFAULT_RESPONSE_FULL_FIELD:
+            case FullResponse::DEFAULT_TYPE:
             default:
                 break;
         }

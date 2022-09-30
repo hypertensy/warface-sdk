@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Warface\Exceptions;
 
-class RequestException extends \RuntimeException
+use RuntimeException;
+
+class RequestException extends RuntimeException
 {
 }

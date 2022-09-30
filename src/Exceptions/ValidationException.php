@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Warface\Exceptions;
 
-class ValidationException extends \InvalidArgumentException
+use InvalidArgumentException;
+
+class ValidationException extends InvalidArgumentException
 {
 }

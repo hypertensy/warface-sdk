@@ -1,17 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Warface;
 
 use JsonException;
 use Warface\Enums\Http\Response;
 use Warface\Enums\Location\Region;
 use Warface\Enums\Location\Server;
-use Warface\Exceptions\ExecuteException;
 use Warface\Exceptions\RequestException;
 use Warface\Exceptions\ValidationException;
 use Warface\Interfaces\RequestInterface;
 
+use function curl_close;
+use function curl_exec;
+use function curl_getinfo;
+use function curl_init;
+use function curl_setopt;
+use function http_build_query;
+use function in_array;
 use function json_decode;
+
+use const CURLINFO_HTTP_CODE;
+use const CURLOPT_PROXY;
+use const CURLOPT_PROXYUSERPWD;
+use const CURLOPT_RETURNTRANSFER;
+use const CURLOPT_URL;
+use const JSON_PARTIAL_OUTPUT_ON_ERROR;
+use const JSON_THROW_ON_ERROR;
 
 abstract class Request implements RequestInterface
 {
@@ -77,8 +93,8 @@ abstract class Request implements RequestInterface
 
         curl_close($ch);
 
-        if (!in_array($code, [Response::OK, Response::BAD_REQUEST], true)) {
-            throw new RequestException('API Server error', $code);
+        if (!$content || !in_array($code, [Response::OK, Response::BAD_REQUEST], true)) {
+            throw new RequestException('API server error', $code);
         }
 
         if (self::$throwOnBadRequest && $code === Response::BAD_REQUEST) {
@@ -86,9 +102,9 @@ abstract class Request implements RequestInterface
         }
 
         try {
-            return json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+            return json_decode($content, true, JSON_PARTIAL_OUTPUT_ON_ERROR, JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
-            throw new ExecuteException($e->getMessage());
+            throw new ValidationException($e->getMessage());
         }
     }
 }

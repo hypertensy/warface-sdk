@@ -149,7 +149,6 @@ $top100 = (new WarfaceClient())->rating()->top100(Enumeration::SED);
 
 ```php
 use Warface\Client as WarfaceClient;
-use Warface\Enums\Classes\Enumeration;
 
 $stat = (new WarfaceClient())->user()->stat('{name}', '?{formatFullResponse}');
 ```
@@ -158,7 +157,6 @@ $stat = (new WarfaceClient())->user()->stat('{name}', '?{formatFullResponse}');
 
 ```php
 use Warface\Client as WarfaceClient;
-use Warface\Enums\Classes\Enumeration;
 
 $achievements = (new WarfaceClient())->user()->achievements('{name}');
 ```

@@ -1,6 +1,6 @@
 <?php
 
-namespace WarfaceTest\Exception;
+namespace WarfaceTest\Exceptions;
 
 use PHPUnit\Framework\TestCase;
 use Warface\Client as WarfaceClient;

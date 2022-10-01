@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WarfaceTest\Exception;
+namespace WarfaceTest\Exceptions;
 
 use PHPUnit\Framework\TestCase;
 use Warface\Client as WarfaceClient;

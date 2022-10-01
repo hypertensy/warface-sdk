@@ -51,7 +51,7 @@ class FullResponse
 
         while ($current = array_shift($keys))
         {
-            if (! array_key_exists($current, $result)) {
+            if (!array_key_exists($current, $result)) {
                 $result[$current] = [];
             }
 

@@ -11,6 +11,7 @@ interface UserInterface
     /**
      * This method returns player statistics.
      *
+     * @see FullResponse
      * @param string $name
      * @param int $formatFullResponse
      * @return array

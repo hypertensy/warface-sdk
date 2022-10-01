@@ -11,6 +11,7 @@ interface AchievementInterface
     /**
      * This method returns a complete list of achievements available in the game, with their id and name.
      *
+     * @see Achievement
      * @param int $variant
      * @return array
      */

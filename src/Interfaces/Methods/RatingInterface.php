@@ -17,6 +17,7 @@ interface RatingInterface
      *
      * If only the $league parameter is used, the server will return the top 100 for that league.
      *
+     * @see League
      * @param string|null $clan
      * @param int $league
      * @param int $page
@@ -36,6 +37,7 @@ interface RatingInterface
      *
      * If the parameter $class is not specified, the data gets for all classes.
      *
+     * @see Enumeration
      * @param int $class
      * @return array
      */

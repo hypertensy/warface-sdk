@@ -126,7 +126,8 @@ The structure of the application is based solely on the public methods described
     ->monthly(`?{clan_name}`, League::ELITE_LEAGUE, '?{page}');
   ```
 
--  Method `clan` returns information about the rating of clans.
+- Method `clan` returns information about the rating of clans.
+
   ```php
   use Warface\Client as WarfaceClient;
   
@@ -146,7 +147,7 @@ The structure of the application is based solely on the public methods described
 
 ### User branch
 
--  Method `stat` returns player statistics.
+- Method `stat` returns player statistics.
 
    > An additional parameter `$formatFullResponse` can be passed a flag that will mutate the field of `full_response`.
 

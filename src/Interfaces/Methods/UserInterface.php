@@ -11,6 +11,8 @@ interface UserInterface
     /**
      * This method returns player statistics.
      *
+     * An additional parameter $formatFullResponse can be passed a flag that will mutate the field of 'full_response'.
+     *
      * @see FullResponse
      * @param string $name
      * @param int $formatFullResponse

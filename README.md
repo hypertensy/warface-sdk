@@ -81,95 +81,98 @@ The structure of the application is based solely on the public methods described
 
 ### Achievement branch
 
-> Method `catalog` returns a complete list of achievements available in the game, with their id and name.
+- Method `catalog` returns a complete list of achievements available in the game, with their id and name.
 
-```php
-use Warface\Client as WarfaceClient;
-
-$catalog = (new WarfaceClient())->achievement()->catalog();
-```
+  ```php
+  use Warface\Client as WarfaceClient;
+  
+  $catalog = (new WarfaceClient())->achievement()->catalog();
+  ```
 
 ### Clan branch
 
-> Method `members` returns information about the clan.
+- Method `members` returns information about the clan.
 
-```php
-use Warface\Client as WarfaceClient;
-
-$members = (new WarfaceClient())->clan()->members('{clan_name}');
-```
+  ```php
+  use Warface\Client as WarfaceClient;
+  
+  $members = (new WarfaceClient())->clan()->members('{clan_name}');
+  ```
 
 ### Game branch
 
-> Method `missions` returns detailed information about available missions and rewards for completing.
+- Method `missions` returns detailed information about available missions and rewards for completing.
 
-```php
-use Warface\Client as WarfaceClient;
-
-$missions = (new WarfaceClient())->game()->missions();
-```
+  ```php
+  use Warface\Client as WarfaceClient;
+  
+  $missions = (new WarfaceClient())->game()->missions();
+  ```
 
 ### Rating branch
 
-> Method `monthly` returns the monthly rating.
-> 
-> If the `$clan` parameter is used, the response from the server will contain data about the selected clan, it will also indicate exactly the league in which this clan is located even if it was not selected in the `$league`.
-> 
-> If only the `$league` parameter is used, the server will return the top 100 for that league.
+- Method `monthly` returns the monthly rating.
 
-```php
-use Warface\Client as WarfaceClient;
-use Warface\Enums\League;
+  > If the `$clan` parameter is used, the response from the server will contain data about the selected clan, it will also indicate exactly the league in which this clan is located even if it was not selected in the `$league`.
+  >
+  > If only the `$league` parameter is used, the server will return the top 100 for that league.
 
-$monthly = (new WarfaceClient())->rating()->monthly(`?{clan_name}`, League::ELITE_LEAGUE, '?{page}');
-```
+  ```php
+  use Warface\Client as WarfaceClient;
+  use Warface\Enums\League;
+  
+  $monthly = (new WarfaceClient())
+    ->rating()
+    ->monthly(`?{clan_name}`, League::ELITE_LEAGUE, '?{page}');
+  ```
 
-> Method `clan` returns information about the rating of clans.
+-  Method `clan` returns information about the rating of clans.
+  ```php
+  use Warface\Client as WarfaceClient;
+  
+  $clan = (new WarfaceClient())->rating()->clan();
+  ```
 
-```php
-use Warface\Client as WarfaceClient;
+- Method `top100` returns a TOP-100 rating.
 
-$clan = (new WarfaceClient())->rating()->clan();
-```
+  > If the parameter `$class` is not specified, the data gets for all classes.
 
-> Method `top100` returns a TOP-100 rating.
-> 
-> If the parameter `$class` is not specified, the data gets for all classes.
-
-```php
-use Warface\Client as WarfaceClient;
-use Warface\Enums\Classes\Enumeration;
-
-$top100 = (new WarfaceClient())->rating()->top100(Enumeration::SED);
-```
+  ```php
+  use Warface\Client as WarfaceClient;
+  use Warface\Enums\Classes\Enumeration;
+  
+  $top100 = (new WarfaceClient())->rating()->top100(Enumeration::SED);
+  ```
 
 ### User branch
 
-> Method `stat` returns player statistics.
+-  Method `stat` returns player statistics.
 
-```php
-use Warface\Client as WarfaceClient;
+   > An additional parameter `$formatFullResponse` can be passed a flag that will mutate the field of `full_response`.
 
-$stat = (new WarfaceClient())->user()->stat('{name}', '?{formatFullResponse}');
-```
+  ```php
+  use Warface\Client as WarfaceClient;
+  
+  $stat = (new WarfaceClient())->user()->stat('{name}', '?{formatFullResponse}');
+  ```
 
-> Method `achievements` returns player's achievements.
+- Method `achievements` returns player's achievements.
 
-```php
-use Warface\Client as WarfaceClient;
-
-$achievements = (new WarfaceClient())->user()->achievements('{name}');
-```
+  ```php
+  use Warface\Client as WarfaceClient;
+  
+  $achievements = (new WarfaceClient())->user()->achievements('{name}');
+  ```
 
 ### Weapon branch
 
-> Method `catalog` returns a complete list of items available in the game, with their id and name.
+- Method `catalog` returns a complete list of items available in the game, with their id and name.
 
-```php
-use Warface\Client as WarfaceClient;
-
-$catalog = (new WarfaceClient())->achievement()->catalog();
-```
+  ```php
+  use Warface\Client as WarfaceClient;
+  
+  $catalog = (new WarfaceClient())->achievement()->catalog();
+  ```
 
 ## License
 

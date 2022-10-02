@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Warface\Methods;
 
-use Warface\Client;
 use Warface\Helpers\FullResponse;
+use Warface\Interfaces\RequestInterface as Client;
 use Warface\Interfaces\Methods\UserInterface;
 
 class User implements UserInterface

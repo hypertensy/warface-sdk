@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Warface\Methods;
 
-use Warface\Client;
+use Warface\Interfaces\MethodInterface as Client;
 use Warface\Interfaces\Methods\AchievementInterface;
 
 class Achievement implements AchievementInterface

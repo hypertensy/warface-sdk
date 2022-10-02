@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Warface\Methods;
 
-use Warface\Client;
 use Warface\Enums\Classes\Enumeration;
 use Warface\Enums\League;
 use Warface\Interfaces\Methods\RatingInterface;
+use Warface\Interfaces\RequestInterface as Client;
 
 class Rating implements RatingInterface
 {

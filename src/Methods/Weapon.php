@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Warface\Methods;
 
-use Warface\Client;
+use Warface\Interfaces\RequestInterface as Client;
 use Warface\Interfaces\Methods\WeaponInterface;
 
 class Weapon implements WeaponInterface

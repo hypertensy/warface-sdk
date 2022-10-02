@@ -7,6 +7,7 @@ namespace WarfaceTest\Methods;
 use PHPUnit\Framework\TestCase;
 use Warface\Client as WarfaceClient;
 use Warface\Enums\Classes\Enumeration;
+use Warface\Enums\Location\Region;
 use Warface\Helpers\FullResponse;
 use Warface\Interfaces\Methods\UserInterface as User;
 
@@ -19,7 +20,8 @@ class UserTest extends TestCase
 
     public function setUp(): void
     {
-        $instance = new WarfaceClient();
+        $instance = new WarfaceClient(Region::INTERNATIONAL);
+        $instance::$throwOnBadRequest = false;
         $this->user = $instance->user();
 
         $top100 = $instance->rating()->top100(Enumeration::RIFLEMAN);

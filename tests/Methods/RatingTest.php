@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Warface\Client as WarfaceClient;
 use Warface\Enums\Classes\Enumeration as GameClass;
 use Warface\Enums\League;
+use Warface\Enums\Location\Region;
 use Warface\Interfaces\Methods\RatingInterface as Rating;
 
 use function array_rand;
@@ -18,7 +19,7 @@ class RatingTest extends TestCase
 
     public function setUp(): void
     {
-        $this->rating = (new WarfaceClient())->rating();
+        $this->rating = (new WarfaceClient(Region::INTERNATIONAL))->rating();
     }
 
     public function testClan(): void

@@ -6,6 +6,7 @@ namespace WarfaceTest\Methods;
 
 use PHPUnit\Framework\TestCase;
 use Warface\Client as WarfaceClient;
+use Warface\Enums\Location\Region;
 use Warface\Interfaces\Methods\AchievementInterface as Achievement;
 
 class AchievementTest extends TestCase
@@ -14,7 +15,7 @@ class AchievementTest extends TestCase
 
     public function setUp(): void
     {
-        $this->achievement = (new WarfaceClient())->achievement();
+        $this->achievement = (new WarfaceClient(Region::INTERNATIONAL))->achievement();
     }
 
     public function testCatalog(): void

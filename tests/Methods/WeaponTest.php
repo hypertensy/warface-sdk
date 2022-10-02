@@ -6,6 +6,7 @@ namespace WarfaceTest\Methods;
 
 use PHPUnit\Framework\TestCase;
 use Warface\Client as WarfaceClient;
+use Warface\Enums\Location\Region;
 use Warface\Interfaces\Methods\WeaponInterface as Weapon;
 
 class WeaponTest extends TestCase
@@ -14,7 +15,7 @@ class WeaponTest extends TestCase
 
     public function setUp(): void
     {
-        $this->weapon = (new WarfaceClient())->weapon();
+        $this->weapon = (new WarfaceClient(Region::INTERNATIONAL))->weapon();
     }
 
     public function testCatalog(): void

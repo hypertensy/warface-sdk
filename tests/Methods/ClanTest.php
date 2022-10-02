@@ -6,6 +6,7 @@ namespace WarfaceTest\Methods;
 
 use PHPUnit\Framework\TestCase;
 use Warface\Client as WarfaceClient;
+use Warface\Enums\Location\Region;
 use Warface\Interfaces\Methods\ClanInterface as Clan;
 
 use function array_rand;
@@ -17,7 +18,7 @@ class ClanTest extends TestCase
 
     public function setUp(): void
     {
-        $instance = new WarfaceClient();
+        $instance = new WarfaceClient(Region::INTERNATIONAL);
         $this->clan = $instance->clan();
 
         $clans = $instance->rating()->clan();

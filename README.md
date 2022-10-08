@@ -69,7 +69,7 @@ $client = new WarfaceClient();
 $client::$throwOnBadRequest = true;
 
 try {
-    $client->user()->stat(null);
+    $client->user()->stat('');
 } catch (RequestException $e) {
     echo $e->getMessage();
 }
@@ -123,7 +123,7 @@ The structure of the application is based solely on the public methods described
   
   $monthly = (new WarfaceClient())
     ->rating()
-    ->monthly(`?{clan_name}`, League::ELITE_LEAGUE, '?{page}');
+    ->monthly('?{clan_name}', League::ELITE_LEAGUE, '?{page}');
   ```
 
 - Method `clan` returns information about the rating of clans.

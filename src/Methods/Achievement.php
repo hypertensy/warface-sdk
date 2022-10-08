@@ -9,9 +9,6 @@ use Warface\Interfaces\Methods\AchievementInterface;
 
 class Achievement implements AchievementInterface
 {
-    public const CATALOG_DEFAULT_TYPE     = 0;
-    public const CATALOG_ALTERNATIVE_TYPE = 1;
-
     private Client $controller;
 
     /**

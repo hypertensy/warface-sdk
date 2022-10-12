@@ -27,8 +27,7 @@ class Achievement implements AchievementInterface
     {
         $get = [];
 
-        switch ($variant)
-        {
+        switch ($variant) {
             case self::CATALOG_DEFAULT_TYPE:
                 $get = $this->controller->request('achievement/catalog');
                 break;

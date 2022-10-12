@@ -49,8 +49,7 @@ class FullResponse
         $keys = explode(' ', $key);
         $last = array_pop($keys);
 
-        while ($current = array_shift($keys))
-        {
+        while ($current = array_shift($keys)) {
             if (!array_key_exists($current, $result)) {
                 $result[$current] = [];
             }

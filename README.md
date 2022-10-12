@@ -2,6 +2,7 @@
 
 [![Travis (.org)](https://img.shields.io/travis/wnull/warface-api?style=flat-square&color=%23228B22)](https://travis-ci.com/wnull/warface-api) 
 ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/wnull/warface-api?style=flat-square) 
+![Standard](https://img.shields.io/badge/Standard-PSR--12-blueviolet?style=flat-square)
 
 A fast, convenient and easy library for working with the Warface API written in PHP.
 

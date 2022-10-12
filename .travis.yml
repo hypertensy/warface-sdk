@@ -7,5 +7,12 @@ php:
 before_script:
   - composer self-update
   - composer install
+  - export PHP_CS_DIR=/tmp/phpcs
+  - export PHP_COMPAT_DIR=/tmp/PHPCompatibility
+  - git clone -b master --depth 1 https://github.com/squizlabs/PHP_CodeSniffer.git $PHP_CS_DIR
+  - git clone -b master --depth 1 https://github.com/wimg/PHPCompatibility.git $PHP_COMPAT_DIR
+  - $PHP_CS_DIR/bin/phpcs --config-set installed_paths $PHP_COMPAT_DIR
 
-script: vendor/bin/phpunit
+script:
+  - $PHP_CS_DIR/bin/phpcs --standard=PSR12 . --ignore=*/vendor/*
+  - vendor/bin/phpunit

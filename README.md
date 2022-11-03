@@ -1,4 +1,4 @@
-# Warface API SDK
+# 🚀 Warface API SDK
 
 [![Travis (.org)](https://img.shields.io/travis/wnull/warface-api?style=flat-square&color=%23228B22)](https://travis-ci.com/wnull/warface-api) 
 ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/wnull/warface-api?style=flat-square) 
@@ -6,11 +6,11 @@
 
 A fast, convenient and easy library for working with the Warface API written in PHP.
 
-## References
+## 📎 References
 
 - [Warface API documentation](https://ru.warface.com/wiki/index.php/API)
 
-## Installation
+## 🔥 Installation
 
 Via Composer:
 
@@ -18,7 +18,7 @@ Via Composer:
 $ composer require wnull/warface-api
 ```
 
-## Initialization
+## ⭐ Initialization
 
 Create `WarfaceClient` object using the following code:
 
@@ -38,17 +38,17 @@ $client = new WarfaceClient(Region::CIS);
 $client = new WarfaceClient(Region::INTERNATIONAL);
 ```
 
-## Extra
+## ⚡ Extra
 
 Additional features of the application client.
 
-### Notice
+### 📌 Notice
 
 - In May 2022, the API switched to the `HTTPS` protocol, you need to keep this in mind.
 - During weekly maintenance work, sometimes API methods return an invalid response body. To avoid problems, use error catching with [`ValidationException`](src/Exceptions/ValidationException.php).
 
 
-### Proxy
+### 🌐 Proxy
 
 You can configure the proxy server for requests, change even during iteration.
 
@@ -58,7 +58,7 @@ use Warface\Client as WarfaceClient;
 $client = new WarfaceClient(); 
 $client->setProxy('{ip:port}', '?{login:password}');
 ```
-### Catching bad requests
+### 🔍 Catching bad requests
 
 You can set a flag `$throwOnBadRequest` that will allow you to throw an exception [`RequestException`](src/Exceptions/RequestException.php) if the response came with the status `400`.
 
@@ -76,11 +76,11 @@ try {
 }
 ```
 
-## API
+## 🔧 API
 
 The structure of the application is based solely on the public methods described in the official [docs](#references).
 
-### Achievement branch
+### 🔸 Achievement branch
 
 - Method `catalog` returns a complete list of achievements available in the game, with their id and name.
 
@@ -90,7 +90,7 @@ The structure of the application is based solely on the public methods described
   $catalog = (new WarfaceClient())->achievement()->catalog();
   ```
 
-### Clan branch
+### 🔸 Clan branch
 
 - Method `members` returns information about the clan.
 
@@ -100,7 +100,7 @@ The structure of the application is based solely on the public methods described
   $members = (new WarfaceClient())->clan()->members('{clan_name}');
   ```
 
-### Game branch
+### 🔸 Game branch
 
 - Method `missions` returns detailed information about available missions and rewards for completing.
 
@@ -110,7 +110,7 @@ The structure of the application is based solely on the public methods described
   $missions = (new WarfaceClient())->game()->missions();
   ```
 
-### Rating branch
+### 🔸 Rating branch
 
 - Method `monthly` returns the monthly rating.
 
@@ -146,7 +146,7 @@ The structure of the application is based solely on the public methods described
   $top100 = (new WarfaceClient())->rating()->top100(Enumeration::SED);
   ```
 
-### User branch
+### 🔸 User branch
 
 - Method `stat` returns player statistics.
 
@@ -166,7 +166,7 @@ The structure of the application is based solely on the public methods described
   $achievements = (new WarfaceClient())->user()->achievements('{name}');
   ```
 
-### Weapon branch
+### 🔸 Weapon branch
 
 - Method `catalog` returns a complete list of items available in the game, with their id and name.
 
@@ -176,7 +176,7 @@ The structure of the application is based solely on the public methods described
   $catalog = (new WarfaceClient())->achievement()->catalog();
   ```
 
-## License
+## 🔒 License
 
 [MIT](LICENSE)
 

@@ -1,11 +1,11 @@
 {
     "name": "wnull/warface-api",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "description": "A fast, convenient and easy library for working with the Warface API written in PHP.",
     "type": "library",
     "license": "MIT",
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": ">=7.4",
         "ext-json": "*",
         "ext-curl": "*"
     },

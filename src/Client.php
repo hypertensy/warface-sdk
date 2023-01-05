@@ -2,81 +2,63 @@
 
 declare(strict_types=1);
 
-namespace Warface;
+namespace Wnull\Warface;
 
-use Warface\Interfaces\MethodInterface;
-use Warface\Interfaces\Methods\AchievementInterface;
-use Warface\Interfaces\Methods\ClanInterface;
-use Warface\Interfaces\Methods\GameInterface;
-use Warface\Interfaces\Methods\RatingInterface;
-use Warface\Interfaces\Methods\UserInterface;
-use Warface\Interfaces\Methods\WeaponInterface;
-use Warface\Methods\Achievement;
-use Warface\Methods\Clan;
-use Warface\Methods\Game;
-use Warface\Methods\Rating;
-use Warface\Methods\User;
-use Warface\Methods\Weapon;
+use Http\Client\Common\HttpMethodsClientInterface;
+use Http\Client\Common\Plugin\AddHostPlugin;
+use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
+use Http\Client\Common\Plugin\RedirectPlugin;
+use Http\Client\Exception;
+use Http\Discovery\Psr17FactoryDiscovery;
+use Psr\Http\Message\UriInterface;
+use Wnull\Warface\Helper\RegionManager;
+use Wnull\Warface\HttpClient\Builder;
+use Wnull\Warface\HttpClient\Message\ResponseMediator;
 
-class Client extends Request implements MethodInterface
+final readonly class Client
 {
-    /**
-     * Achievement branch.
-     *
-     * @return AchievementInterface
-     */
-    public function achievement(): AchievementInterface
+    private Builder $httpClientBuilder;
+
+    public function __construct(Builder $httpClientBuilder = null)
     {
-        return new Achievement($this);
+        $this->httpClientBuilder = $builder = $httpClientBuilder ?? new Builder();
+
+        $builder->addPlugin(new RedirectPlugin());
+        $builder->addPlugin(new AddHostPlugin($this->getDefaultUri()));
+
+        $builder->addPlugin(
+            new HeaderDefaultsPlugin([
+                'User-Agent' => 'warface-api-sdk (https://github.com/wnull/warface-api)',
+            ])
+        );
+    }
+
+    protected function getHttpClient(): HttpMethodsClientInterface
+    {
+        return $this->getHttpClientBuilder()->getHttpClient();
+    }
+
+    protected function getHttpClientBuilder(): Builder
+    {
+        return $this->httpClientBuilder;
+    }
+
+    protected function getDefaultUri(): UriInterface
+    {
+        return Psr17FactoryDiscovery::findUriFactory()->createUri(RegionManager::getCisServer());
     }
 
     /**
-     * Clan branch.
-     *
-     * @return ClanInterface
+     * @throws Exception
      */
-    public function clan(): ClanInterface
+    public function get(string $path, array $parameters = []): array|bool
     {
-        return new Clan($this);
-    }
+        if (count($parameters) > 0) {
+            $path .= '?' . http_build_query($parameters, arg_separator: '&');
+        }
 
-    /**
-     * Game branch.
-     *
-     * @return GameInterface
-     */
-    public function game(): GameInterface
-    {
-        return new Game($this);
-    }
+        $response = $this->getHttpClient()->get($path);
 
-    /**
-     * Rating branch.
-     *
-     * @return RatingInterface
-     */
-    public function rating(): RatingInterface
-    {
-        return new Rating($this);
-    }
-
-    /**
-     * User branch.
-     *
-     * @return UserInterface
-     */
-    public function user(): UserInterface
-    {
-        return new User($this);
-    }
-
-    /**
-     * Weapon branch.
-     *
-     * @return WeaponInterface
-     */
-    public function weapon(): WeaponInterface
-    {
-        return new Weapon($this);
+        return ResponseMediator::getContent($response);
     }
 }

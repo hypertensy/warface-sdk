@@ -4,14 +4,31 @@ declare(strict_types=1);
 
 namespace Wnull\Warface;
 
+use BadMethodCallException;
 use Http\Client\Common\HttpMethodsClientInterface;
 use Http\Client\Common\Plugin\AddHostPlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
 use Http\Client\Common\Plugin\RedirectPlugin;
+use InvalidArgumentException;
+use Wnull\Warface\Api\AbstractApi;
+use Wnull\Warface\Api\Achievement;
+use Wnull\Warface\Api\Clan;
+use Wnull\Warface\Api\Game;
+use Wnull\Warface\Api\Rating;
+use Wnull\Warface\Api\User;
+use Wnull\Warface\Api\Weapon;
 use Wnull\Warface\Enum\Http\RegionList;
 use Wnull\Warface\HttpClient\Builder;
 use Wnull\Warface\HttpClient\Plugin\ServerSupportPlugin;
 
+/**
+ * @method Achievement achievement() Achievement branch
+ * @method Clan clan() Clan branch
+ * @method Game game() Game branch
+ * @method Rating rating() Rating branch
+ * @method User user() User branch
+ * @method Weapon weapon() Weapon branch
+ */
 final readonly class Client
 {
     private Builder $httpClientBuilder;
@@ -22,7 +39,7 @@ final readonly class Client
 
         $builder->addPlugin(new RedirectPlugin());
         $builder->addPlugin(
-            (new ServerSupportPlugin(RegionList::CIS))->makeAddHostPlugin()
+            (new ServerSupportPlugin())->makeAddHostPlugin()
         );
 
         $builder->addPlugin(
@@ -30,6 +47,28 @@ final readonly class Client
                 'User-Agent' => 'warface-api-sdk (https://github.com/wnull/warface-api)',
             ])
         );
+    }
+
+    public function __call(string $name, array $arguments)
+    {
+        try {
+            return $this->api($name);
+        } catch (InvalidArgumentException $e) {
+            throw new BadMethodCallException('Undefined method called: ' . $name, previous: $e);
+        }
+    }
+
+    public function api(string $name): AbstractApi
+    {
+        return match ($name) {
+            'achievement' => new Achievement($this),
+            'clan'        => new Clan($this),
+            'game'        => new Game($this),
+            'rating'      => new Rating($this),
+            'user'        => new User($this),
+            'weapon'      => new Weapon($this),
+            default       => throw new InvalidArgumentException(),
+        };
     }
 
     public function getHttpClient(): HttpMethodsClientInterface

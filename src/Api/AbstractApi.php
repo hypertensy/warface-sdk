@@ -21,7 +21,7 @@ abstract readonly class AbstractApi
     /**
      * @throws Exception|JsonException
      */
-    public function get(string $path, array $parameters = []): array|string
+    protected function get(string $path, array $parameters = []): array|string
     {
         if (count($parameters) > 0) {
             $path .= '?' . http_build_query($parameters, arg_separator: '&');

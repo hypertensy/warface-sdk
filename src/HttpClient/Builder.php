@@ -18,7 +18,7 @@ final class Builder
 {
     private ClientInterface $httpClient;
     private RequestFactoryInterface $requestFactory;
-    public StreamFactoryInterface $streamFactory;
+    private StreamFactoryInterface $streamFactory;
 
     /**
      * @var array<int, Plugin>
@@ -47,5 +47,14 @@ final class Builder
     public function addPlugin(Plugin $plugin): void
     {
         $this->plugins[] = $plugin;
+    }
+
+    public function removePlugin(string $className): void
+    {
+        foreach ($this->plugins as $id => $plugin) {
+            if ($plugin instanceof $className) {
+                unset($this->plugins[$id]);
+            }
+        }
     }
 }

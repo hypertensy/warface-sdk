@@ -4,44 +4,30 @@ declare(strict_types=1);
 
 namespace Wnull\Warface\Api;
 
-use Http\Client\Exception;
-use Wnull\Warface\Client;
-use Wnull\Warface\Enum\League;
-use Wnull\Warface\Enum\Player\Enumeration;
+use Wnull\Warface\Contracts\Api\RatingInterface;
+use Wnull\Warface\Enum\GameClassEnum;
+use Wnull\Warface\Enum\LeagueEnum;
 
-readonly class Rating
+readonly class Rating extends AbstractApi implements RatingInterface
 {
-    public function __construct(
-        private Client $client
-    ) {}
-
-    /**
-     * @throws Exception
-     */
-    public function monthly(?string $clan = null, League $league = League::ELITE, int $page = 0): array
+    public function clan(): array|string
     {
-        return $this->client->get('rating/monthly', [
+        return $this->get('rating/clan');
+    }
+
+    public function monthly(?string $clan = null, LeagueEnum $league = LeagueEnum::NONE, int $page = 0): array|string
+    {
+        return $this->get('rating/monthly', [
             'clan'   => $clan,
             'league' => $league,
-            'page'   => $page
+            'page'   => $page,
         ]);
     }
 
-    /**
-     * @throws Exception
-     */
-    public function clan(): array
+    public function top100(GameClassEnum $class = GameClassEnum::NONE): array|string
     {
-        return $this->client->get('rating/clan');
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function top100(Enumeration $class = Enumeration::NULLABLE): array
-    {
-        return $this->client->get('rating/top100', [
-            'class' => $class
+        return $this->get('rating/top100', [
+            'class' => $class,
         ]);
     }
 }

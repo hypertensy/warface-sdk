@@ -8,12 +8,9 @@ use Http\Client\Common\HttpMethodsClientInterface;
 use Http\Client\Common\Plugin\AddHostPlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
 use Http\Client\Common\Plugin\RedirectPlugin;
-use Http\Client\Exception;
-use Http\Discovery\Psr17FactoryDiscovery;
-use Psr\Http\Message\UriInterface;
-use Wnull\Warface\Helper\RegionManager;
+use Wnull\Warface\Enum\Http\RegionList;
 use Wnull\Warface\HttpClient\Builder;
-use Wnull\Warface\HttpClient\Message\ResponseMediator;
+use Wnull\Warface\HttpClient\Plugin\ServerSupportPlugin;
 
 final readonly class Client
 {
@@ -24,7 +21,9 @@ final readonly class Client
         $this->httpClientBuilder = $builder = $httpClientBuilder ?? new Builder();
 
         $builder->addPlugin(new RedirectPlugin());
-        $builder->addPlugin(new AddHostPlugin($this->getDefaultUri()));
+        $builder->addPlugin(
+            (new ServerSupportPlugin(RegionList::CIS))->makeAddHostPlugin()
+        );
 
         $builder->addPlugin(
             new HeaderDefaultsPlugin([
@@ -33,7 +32,7 @@ final readonly class Client
         );
     }
 
-    protected function getHttpClient(): HttpMethodsClientInterface
+    public function getHttpClient(): HttpMethodsClientInterface
     {
         return $this->getHttpClientBuilder()->getHttpClient();
     }
@@ -43,22 +42,11 @@ final readonly class Client
         return $this->httpClientBuilder;
     }
 
-    protected function getDefaultUri(): UriInterface
+    public function setServer(RegionList $region): void
     {
-        return Psr17FactoryDiscovery::findUriFactory()->createUri(RegionManager::getCisServer());
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function get(string $path, array $parameters = []): array|bool
-    {
-        if (count($parameters) > 0) {
-            $path .= '?' . http_build_query($parameters, arg_separator: '&');
-        }
-
-        $response = $this->getHttpClient()->get($path);
-
-        return ResponseMediator::getContent($response);
+        $this->getHttpClientBuilder()->removePlugin(AddHostPlugin::class);
+        $this->getHttpClientBuilder()->addPlugin(
+            (new ServerSupportPlugin($region))->makeAddHostPlugin()
+        );
     }
 }

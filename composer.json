@@ -9,9 +9,15 @@
         "php-http/client-common": "^2.5",
         "php-http/discovery": "^1.14.3",
         "php-http/httplug": "^2.3",
+        "php-http/multipart-stream-builder": "^1.2",
         "psr/http-client-implementation": "^1.0",
         "psr/http-factory-implementation": "^1.0",
         "psr/http-message": "^1.0.1"
+    },
+    "require-dev": {
+        "guzzlehttp/guzzle": "^7.5",
+        "guzzlehttp/psr7": "^2.4.1",
+        "http-interop/http-factory-guzzle": "^1.2"
     },
     "autoload": {
         "psr-4": {

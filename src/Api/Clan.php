@@ -4,21 +4,14 @@ declare(strict_types=1);
 
 namespace Wnull\Warface\Api;
 
-use Http\Client\Exception;
-use Wnull\Warface\Client;
+use Wnull\Warface\Contracts\Api\ClanInterface;
 
-readonly class Clan
+readonly class Clan extends AbstractApi implements ClanInterface
 {
-    public function __construct(
-        private Client $client
-    ) {}
-
-
-    /**
-     * @throws Exception
-     */
-    public function members(): array
+    public function members(string $clan): array|string
     {
-        return $this->client->get('clan/members');
+        return $this->get('clan/members', [
+            'clan' => $clan,
+        ]);
     }
 }

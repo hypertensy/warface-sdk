@@ -8,7 +8,7 @@ use Wnull\Warface\Contracts\Api\WeaponInterface;
 
 readonly class Weapon extends AbstractApi implements WeaponInterface
 {
-    public function catalog(): array|string
+    public function catalog(): array
     {
         return $this->get('weapon/catalog');
     }

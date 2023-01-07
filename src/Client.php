@@ -20,6 +20,7 @@ use Wnull\Warface\Enum\Http\RegionList;
 use Wnull\Warface\Exception\IncorrectBranchException;
 use Wnull\Warface\Exception\UnknownMethodCallException;
 use Wnull\Warface\HttpClient\Builder;
+use Wnull\Warface\HttpClient\Plugin\BadRequestCatchPlugin;
 use Wnull\Warface\HttpClient\Plugin\BypassTimeoutResponsePlugin;
 use Wnull\Warface\HttpClient\Plugin\ServerSupportPlugin;
 
@@ -51,7 +52,7 @@ final readonly class Client implements ClientFeaturesInterface
         );
     }
 
-    public function __call(string $name, array $arguments)
+    public function __call(string $name, array $arguments): AbstractApi
     {
         try {
             return $this->api($name);

@@ -10,12 +10,12 @@ use Wnull\Warface\Enum\LeagueEnum;
 
 readonly class Rating extends AbstractApi implements RatingInterface
 {
-    public function clan(): array|string
+    public function clan(): array
     {
         return $this->get('rating/clan');
     }
 
-    public function monthly(?string $clan = null, LeagueEnum $league = LeagueEnum::NONE, int $page = 0): array|string
+    public function monthly(?string $clan = null, LeagueEnum $league = LeagueEnum::NONE, int $page = 0): array
     {
         return $this->get('rating/monthly', [
             'clan'   => $clan,
@@ -24,7 +24,7 @@ readonly class Rating extends AbstractApi implements RatingInterface
         ]);
     }
 
-    public function top100(GameClassEnum $class = GameClassEnum::NONE): array|string
+    public function top100(GameClassEnum $class = GameClassEnum::NONE): array
     {
         return $this->get('rating/top100', [
             'class' => $class,

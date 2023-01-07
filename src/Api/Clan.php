@@ -8,7 +8,7 @@ use Wnull\Warface\Contracts\Api\ClanInterface;
 
 readonly class Clan extends AbstractApi implements ClanInterface
 {
-    public function members(string $clan): array|string
+    public function members(string $clan): array
     {
         return $this->get('clan/members', [
             'clan' => $clan,

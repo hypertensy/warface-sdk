@@ -8,7 +8,7 @@ use Wnull\Warface\Contracts\Api\GameInterface;
 
 readonly class Game extends AbstractApi implements GameInterface
 {
-    public function missions(): array|string
+    public function missions(): array
     {
         return $this->get('game/missions');
     }

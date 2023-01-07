@@ -5,18 +5,19 @@ declare(strict_types=1);
 namespace Wnull\Warface\Contracts\Api;
 
 use Http\Client\Exception;
-use JsonException;
 use Wnull\Warface\Enum\GameClassEnum;
 use Wnull\Warface\Enum\LeagueEnum;
+use Wnull\Warface\Exception\Response\ApiException;
+use Wnull\Warface\Exception\Response\InvalidJsonException;
 
 interface RatingInterface
 {
     /**
      * This method returns information about the rating of clans.
      *
-     * @throws Exception|JsonException
+     * @throws InvalidJsonException|ApiException|Exception
      */
-    public function clan(): array|string;
+    public function clan(): array;
 
     /**
      * This method returns the monthly rating.
@@ -26,18 +27,18 @@ interface RatingInterface
      *
      * If only the $league parameter is used, the server will return the top 100 for that league.
      *
-     * @throws Exception|JsonException
+     * @throws InvalidJsonException|ApiException|Exception
      * @see LeagueEnum
      */
-    public function monthly(?string $clan = null, LeagueEnum $league = LeagueEnum::NONE, int $page = 0): array|string;
+    public function monthly(?string $clan = null, LeagueEnum $league = LeagueEnum::NONE, int $page = 0): array;
 
     /**
      * This method returns a TOP-100 rating.
      *
      * If the parameter $class is not specified or set 0, the data gets for all classes.
      *
-     * @throws Exception|JsonException
+     * @throws InvalidJsonException|ApiException|Exception
      * @see GameClassEnum
      */
-    public function top100(GameClassEnum $class = GameClassEnum::NONE): array|string;
+    public function top100(GameClassEnum $class = GameClassEnum::NONE): array;
 }

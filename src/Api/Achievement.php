@@ -8,7 +8,7 @@ use Wnull\Warface\Contracts\Api\AchievementInterface;
 
 readonly class Achievement extends AbstractApi implements AchievementInterface
 {
-    public function catalog(): array|string
+    public function catalog(): array
     {
         return $this->get('achievement/catalog');
     }

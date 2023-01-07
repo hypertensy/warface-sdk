@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Wnull\Warface;
 
-use BadMethodCallException;
 use Http\Client\Common\HttpMethodsClientInterface;
 use Http\Client\Common\Plugin\AddHostPlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
 use Http\Client\Common\Plugin\RedirectPlugin;
-use InvalidArgumentException;
 use Wnull\Warface\Api\AbstractApi;
 use Wnull\Warface\Api\Achievement;
 use Wnull\Warface\Api\Clan;
@@ -17,8 +15,12 @@ use Wnull\Warface\Api\Game;
 use Wnull\Warface\Api\Rating;
 use Wnull\Warface\Api\User;
 use Wnull\Warface\Api\Weapon;
+use Wnull\Warface\Contracts\ClientFeaturesInterface;
 use Wnull\Warface\Enum\Http\RegionList;
+use Wnull\Warface\Exception\IncorrectBranchException;
+use Wnull\Warface\Exception\UnknownMethodCallException;
 use Wnull\Warface\HttpClient\Builder;
+use Wnull\Warface\HttpClient\Plugin\BypassTimeoutResponsePlugin;
 use Wnull\Warface\HttpClient\Plugin\ServerSupportPlugin;
 
 /**
@@ -29,7 +31,7 @@ use Wnull\Warface\HttpClient\Plugin\ServerSupportPlugin;
  * @method User user() User branch
  * @method Weapon weapon() Weapon branch
  */
-final readonly class Client
+final readonly class Client implements ClientFeaturesInterface
 {
     private Builder $httpClientBuilder;
 
@@ -53,8 +55,8 @@ final readonly class Client
     {
         try {
             return $this->api($name);
-        } catch (InvalidArgumentException $e) {
-            throw new BadMethodCallException('Undefined method called: ' . $name, previous: $e);
+        } catch (IncorrectBranchException $e) {
+            throw new UnknownMethodCallException('Undefined method called: ' . $name, previous: $e);
         }
     }
 
@@ -67,7 +69,7 @@ final readonly class Client
             'rating'      => new Rating($this),
             'user'        => new User($this),
             'weapon'      => new Weapon($this),
-            default       => throw new InvalidArgumentException(),
+            default       => throw new IncorrectBranchException(),
         };
     }
 
@@ -79,6 +81,11 @@ final readonly class Client
     protected function getHttpClientBuilder(): Builder
     {
         return $this->httpClientBuilder;
+    }
+
+    public function onBypassTimeout(): void
+    {
+        $this->getHttpClientBuilder()->addPlugin(new BypassTimeoutResponsePlugin());
     }
 
     public function setServer(RegionList $region): void

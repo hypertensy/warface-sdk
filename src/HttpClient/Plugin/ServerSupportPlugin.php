@@ -22,7 +22,7 @@ final readonly class ServerSupportPlugin implements Plugin
     public function getServerUri(): string
     {
         return match ($this->region) {
-            RegionList::CIS => $this->resolve(RegionList::CIS),
+            RegionList::CIS           => $this->resolve(RegionList::CIS),
             RegionList::INTERNATIONAL => $this->resolve(RegionList::INTERNATIONAL),
         };
     }

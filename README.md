@@ -42,6 +42,20 @@ $client = new WarfaceClient(Region::INTERNATIONAL);
 
 Additional features of the application client.
 
+### 📑 Bypass timeout response 
+
+A request control system is enabled for the CIS region. Two or more identical requests running in a row cause a long response or timeout from the API. In rare cases, error 429 is returned.
+
+In order to enable the workaround of this problem, pass a special flag to the `Client` constructor.
+
+```php
+use Warface\Client as WarfaceClient;
+use Warface\Enums\Location\Region;
+
+$client = new WarfaceClient(Region::CIS, true);
+```
+
+
 ### 📌 Notice
 
 - In May 2022, the API switched to the `HTTPS` protocol, you need to keep this in mind.

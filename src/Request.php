@@ -20,13 +20,13 @@ use function curl_setopt;
 use function http_build_query;
 use function in_array;
 use function json_decode;
+use function microtime;
 
 use const CURLINFO_HTTP_CODE;
 use const CURLOPT_PROXY;
 use const CURLOPT_PROXYUSERPWD;
 use const CURLOPT_RETURNTRANSFER;
 use const CURLOPT_URL;
-use const JSON_PARTIAL_OUTPUT_ON_ERROR;
 use const JSON_THROW_ON_ERROR;
 
 abstract class Request implements RequestInterface
@@ -37,6 +37,7 @@ abstract class Request implements RequestInterface
     protected ?string $proxyAuth = null;
 
     protected string $locale;
+    protected bool $bypassTimeout;
 
     protected array $locations = [
         Region::CIS           => Server::CIS,
@@ -45,13 +46,15 @@ abstract class Request implements RequestInterface
 
     /**
      * @param string $locale
+     * @param bool $bypassTimeout
      */
-    public function __construct(string $locale = Region::CIS)
+    public function __construct(string $locale = Region::CIS, bool $bypassTimeout = false)
     {
         if (!isset($this->locations[$locale])) {
             throw new ValidationException('Invalid region specified');
         }
 
+        $this->bypassTimeout = $bypassTimeout;
         $this->locale = $locale;
     }
 
@@ -74,8 +77,19 @@ abstract class Request implements RequestInterface
     {
         $ch = curl_init();
 
+        $server = $this->locations[$this->locale];
+
+        /**
+         * A request control system is enabled for the CIS region. Two or more identical requests running in a row
+         * cause a long response or timeout from the API. In rare cases, error 429 is returned.
+         */
+        if ($this->bypassTimeout && $server === $this->locations[Region::CIS]) {
+            $hash = '<' . microtime(true);
+            $params['name'] = isset($params['name']) ? $params['name'] . $hash : $hash;
+        }
+
         $params = http_build_query($params);
-        $endpoint = "https://{$this->locations[$this->locale]}/$branch?$params";
+        $endpoint = "https://$server/$branch?$params";
 
         curl_setopt($ch, CURLOPT_URL, $endpoint);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -102,7 +116,7 @@ abstract class Request implements RequestInterface
         }
 
         try {
-            return json_decode($content, true, JSON_PARTIAL_OUTPUT_ON_ERROR, JSON_THROW_ON_ERROR);
+            return json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
             throw new ValidationException($e->getMessage());
         }

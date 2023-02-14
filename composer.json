@@ -1,0 +1,40 @@
+{
+    "name": "wnull/warface-sdk",
+    "description": "Fast and flexible SDK client of the Warface API in PHP.",
+    "version": "5.0.0",
+    "type": "library",
+    "keywords": [
+        "warface",
+        "client",
+        "sdk",
+        "php",
+        "api"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "php-http/client-common": "^2.6",
+        "php-http/discovery": "^1.14",
+        "php-http/httplug": "^2.3",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-message": "^1.0"
+    },
+    "require-dev": {
+        "php-http/curl-client": "^2.1",
+        "php-http/mock-client": "^1.4",
+        "guzzlehttp/guzzle": "^7.5",
+        "guzzlehttp/psr7": "^2.4",
+        "http-interop/http-factory-guzzle": "^1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Wnull\\WarfaceSdk\\": "src/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

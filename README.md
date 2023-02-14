@@ -59,7 +59,6 @@ use Warface\Enums\Location\Region;
 $client = new WarfaceClient(Region::CIS, true);
 ```
 
-
 ### Notice
 
 - In May 2022, the API switched to the `HTTPS` protocol, you need to keep this in mind.

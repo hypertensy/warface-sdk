@@ -2,81 +2,57 @@
 
 declare(strict_types=1);
 
-namespace Warface;
+namespace Wnull\Warface;
 
-use Warface\Interfaces\MethodInterface;
-use Warface\Interfaces\Methods\AchievementInterface;
-use Warface\Interfaces\Methods\ClanInterface;
-use Warface\Interfaces\Methods\GameInterface;
-use Warface\Interfaces\Methods\RatingInterface;
-use Warface\Interfaces\Methods\UserInterface;
-use Warface\Interfaces\Methods\WeaponInterface;
-use Warface\Methods\Achievement;
-use Warface\Methods\Clan;
-use Warface\Methods\Game;
-use Warface\Methods\Rating;
-use Warface\Methods\User;
-use Warface\Methods\Weapon;
+use Wnull\Warface\Api\AbstractApi;
+use Wnull\Warface\Api\Achievement;
+use Wnull\Warface\Api\AchievementInterface;
+use Wnull\Warface\Api\Clan;
+use Wnull\Warface\Api\ClanInterface;
+use Wnull\Warface\Api\Game;
+use Wnull\Warface\Api\GameInterface;
+use Wnull\Warface\Api\Rating;
+use Wnull\Warface\Api\RatingInterface;
+use Wnull\Warface\Api\User;
+use Wnull\Warface\Api\UserInterface;
+use Wnull\Warface\Api\Weapon;
+use Wnull\Warface\Api\WeaponInterface;
+use Wnull\Warface\Enum\EntityList;
+use Wnull\Warface\Exception\InvalidApiEndpointException;
+use Wnull\Warface\Factory\RequesterFactoryTrait;
 
-class Client extends Request implements MethodInterface
+/**
+ * @method AchievementInterface achievement() Achievement branch
+ * @method ClanInterface clan() Clan branch
+ * @method GameInterface game() Game branch
+ * @method RatingInterface rating() Rating branch
+ * @method UserInterface user() User branch
+ * @method WeaponInterface weapon() Weapon branch
+ */
+final class Client
 {
-    /**
-     * Achievement branch.
-     *
-     * @return AchievementInterface
-     */
-    public function achievement(): AchievementInterface
-    {
-        return new Achievement($this);
-    }
+    use RequesterFactoryTrait;
 
     /**
-     * Clan branch.
-     *
-     * @return ClanInterface
+     * @throws InvalidApiEndpointException
      */
-    public function clan(): ClanInterface
+    public function __call(string $entity, array $arguments = []): AbstractApi
     {
-        return new Clan($this);
-    }
-
-    /**
-     * Game branch.
-     *
-     * @return GameInterface
-     */
-    public function game(): GameInterface
-    {
-        return new Game($this);
-    }
-
-    /**
-     * Rating branch.
-     *
-     * @return RatingInterface
-     */
-    public function rating(): RatingInterface
-    {
-        return new Rating($this);
-    }
-
-    /**
-     * User branch.
-     *
-     * @return UserInterface
-     */
-    public function user(): UserInterface
-    {
-        return new User($this);
-    }
-
-    /**
-     * Weapon branch.
-     *
-     * @return WeaponInterface
-     */
-    public function weapon(): WeaponInterface
-    {
-        return new Weapon($this);
+        switch ($entity) {
+            case EntityList::ACHIEVEMENT:
+                return new Achievement($this->getRequester());
+            case EntityList::CLAN:
+                return new Clan($this->getRequester());
+            case EntityList::GAME:
+                return new Game($this->getRequester());
+            case EntityList::RATING:
+                return new Rating($this->getRequester());
+            case EntityList::USER:
+                return new User($this->getRequester());
+            case EntityList::WEAPON:
+                return new Weapon($this->getRequester());
+            default:
+                throw new InvalidApiEndpointException();
+        }
     }
 }

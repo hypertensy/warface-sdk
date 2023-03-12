@@ -1,14 +1,8 @@
-# Warface API SDK client
+# Warface  SDK client
 
-[![Travis (.org)](https://img.shields.io/travis/wnull/warface-api?style=flat-square&color=%23228B22)](https://travis-ci.com/wnull/warface-api) 
-![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/wnull/warface-api?style=flat-square) 
-![Standard](https://img.shields.io/badge/Standard-PSR--12-blueviolet?style=flat-square)
+Fast and flexible SDK client of the Warface API in PHP.
 
-A fast, convenient and easy library for working with the Warface API written in PHP.
-
-> ### The near future
-> 
-> If you are using PHP version `8.2` or higher, you can try using a new, more flexible and faster version of the client in a new [branch](https://github.com/wnull/warface-sdk/tree/5.x). You can read more in the [issue](https://github.com/wnull/warface-sdk/issues/12). The merger of the branches is planned for the beginning of 2024.
+> **Important**: during technical weekly work on the game servers, the API may work unstable and give incorrect data.
 
 ## References
 
@@ -19,181 +13,119 @@ A fast, convenient and easy library for working with the Warface API written in 
 Via Composer:
 
 ```shell
-$ composer require wnull/warface-sdk
+$ composer require wnull/warface-sdk guzzlehttp/guzzle:^7.3 http-interop/http-factory-guzzle:^1.0
 ```
 
-## Initialization
+We are decoupled from any HTTP messaging client with help by [HTTPlug](https://httplug.io/).
 
-Create `WarfaceClient` object using the following code:
+## Quickstart
+
+Create an instance of the client using the following code:
 
 ```php
-use Warface\Client as WarfaceClient;
+$client = new \Wnull\Warface\Client();
+```
+The constructor includes two parameters: the first is the client class builder, the second is the host API region. You can make your the builder and fill it with custom plugins.
 
-$client = new WarfaceClient(); // default is CIS
+```php
+$builder = (new \Wnull\Warface\HttpClient\ClientBuilder());
+$builder->addPlugin(
+    new class implements \Http\Client\Common\Plugin {
+        public function handleRequest(
+            \Psr\Http\Message\RequestInterface $request, 
+            callable $next, 
+            callable $first)
+        : \Http\Promise\Promise {
+            // TODO: Implement handleRequest() method.
+        }
+    }
+);
+
+$client = new \Wnull\Warface\Client($builder);
 ```
 
-Also, you can initialize `WarfaceClient` with different region like this:
+By default, the `CIS` region is set in the client. It can be changed to `INTERNATIONAL` if necessary.
 
 ```php
-use Warface\Client as WarfaceClient;
-use Warface\Enums\Location\Region;
-
-$client = new WarfaceClient(Region::CIS); 
-$client = new WarfaceClient(Region::INTERNATIONAL);
+$builder = null; // builder or null
+$client = new \Wnull\Warface\Client($builder, \Wnull\Warface\Enum\RegionEnum::INTERNATIONAL());
 ```
 
-## Extra
+## Overview
 
-Additional features of the application client.
+Thanks to [HTTPlug](https://httplug.io), we support the use of many HTTP clients. For example, to use the Symfony HTTP
+Client, first install the client and PSR-7 implementation.
 
-### Bypass timeout response 
-
-A request control system is enabled for the CIS region. Two or more identical requests running in a row cause a long response or timeout from the API. In rare cases, error `429` is returned.
-
-In order to enable the workaround of this problem, pass a special flag to the `Client` constructor.
-
-```php
-use Warface\Client as WarfaceClient;
-use Warface\Enums\Location\Region;
-
-$client = new WarfaceClient(Region::CIS, true);
+```shell
+composer require wnull/warface-sdk symfony/http-client nyholm/psr7
 ```
 
-### Notice
-
-- In May 2022, the API switched to the `HTTPS` protocol, you need to keep this in mind.
-- During weekly maintenance work, sometimes API methods return an invalid response body. To avoid problems, use error catching with [`ValidationException`](src/Exceptions/ValidationException.php).
-
-
-### Proxy
-
-You can configure the proxy server for requests, change even during iteration.
+Next, set up the Warface SDK client with this HTTP client:
 
 ```php
-use Warface\Client as WarfaceClient;
-
-$client = new WarfaceClient(); 
-$client->setProxy('{ip:port}', '?{login:password}');
+$client = \Worksome\SDK\Client::createWithHttpClient(
+    new \Symfony\Component\HttpClient\HttplugClient()
+);
 ```
-### Catching bad requests
 
-You can set a flag `$throwOnBadRequest` that will allow you to throw an exception [`RequestException`](src/Exceptions/RequestException.php) if the response came with the status `400`.
+Alternatively, you can inject an HTTP client through the `Client` constructor.
+
+---
+
+For requests that return the status `400`, if an opportunity is needed, then you can process the error body, since requests also return json data.
 
 ```php
-use Warface\Client as WarfaceClient;
-use Warface\Exceptions\RequestException;
-
-$client = new WarfaceClient();
-$client::$throwOnBadRequest = true;
-
 try {
-    $client->user()->stat('');
-} catch (RequestException $e) {
-    echo $e->getMessage();
+    $catalog = (new \Wnull\Warface\Client())->weapon()->catalog();
+} catch (\Wnull\Warface\Exception\WarfaceApiException $e) {
+    if ($e instanceof \Wnull\Warface\Exception\BadRequestException) {
+        $rawBody = $e->getMediator()->getResponse()->getBody()->getContents(); // raw body
+        $decodeBody = $e->getMediator()->getBodyContentsDecode(); // array decode body with reason
+    }
 }
 ```
 
 ## API
 
-The structure of the application is based solely on the public methods described in the official [docs](#references).
+Below are all kinds of public methods for working with API.
 
-### Achievement branch
+```php
+$client = new \Wnull\Warface\Client();
 
-- Method `catalog` returns a complete list of achievements available in the game, with their id and name.
+// Achievement branch
+$achievement = $client->achievement();
+$catalog = $achievement->catalog();
 
-  ```php
-  use Warface\Client as WarfaceClient;
-  
-  $catalog = (new WarfaceClient())->achievement()->catalog();
-  ```
+// Clan branch
+$clan = $client->clan();
+$members = $clan->members('<clan_name>');
 
-### Clan branch
+// Game branch
+$game = $client->game();
+$missions = $game->missions();
 
-- Method `members` returns information about the clan.
+// Rating branch
+$rating = $client->rating();
+$clan = $rating->clan();
+// All options params
+$monthly = $rating->monthly('?<clan>', \Wnull\Warface\Enum\RatingLeague::BRONZE(), '?<page>')
+$top100 = $rating->top100(\Wnull\Warface\Enum\GameClass::ENGINEER());
 
-  ```php
-  use Warface\Client as WarfaceClient;
-  
-  $members = (new WarfaceClient())->clan()->members('{clan_name}');
-  ```
+// User branch
+$user = $client->user();
+$stat = $user->stat('<name>');
+$achievements = $user->achievements('<name>');
 
-### Game branch
+// Weapon branch
+$weapon = $client->weapon();
+$catalog = $weapon->catalog();
+```
 
-- Method `missions` returns detailed information about available missions and rewards for completing.
+## Credits
 
-  ```php
-  use Warface\Client as WarfaceClient;
-  
-  $missions = (new WarfaceClient())->game()->missions();
-  ```
-
-### Rating branch
-
-- Method `monthly` returns the monthly rating.
-
-  > If the `$clan` parameter is used, the response from the server will contain data about the selected clan, it will also indicate exactly the league in which this clan is located even if it was not selected in the `$league`.
-  >
-  > If only the `$league` parameter is used, the server will return the top 100 for that league.
-
-  ```php
-  use Warface\Client as WarfaceClient;
-  use Warface\Enums\League;
-  
-  $monthly = (new WarfaceClient())
-    ->rating()
-    ->monthly('?{clan_name}', League::ELITE_LEAGUE, '?{page}');
-  ```
-
-- Method `clan` returns information about the rating of clans.
-
-  ```php
-  use Warface\Client as WarfaceClient;
-  
-  $clan = (new WarfaceClient())->rating()->clan();
-  ```
-
-- Method `top100` returns a TOP-100 rating.
-
-  > If the parameter `$class` is not specified, the data gets for all classes.
-
-  ```php
-  use Warface\Client as WarfaceClient;
-  use Warface\Enums\Classes\Enumeration;
-  
-  $top100 = (new WarfaceClient())->rating()->top100(Enumeration::SED);
-  ```
-
-### User branch
-
-- Method `stat` returns player statistics.
-
-   > An additional parameter `$formatFullResponse` can be passed a flag that will mutate the field of `full_response`.
-
-  ```php
-  use Warface\Client as WarfaceClient;
-  
-  $stat = (new WarfaceClient())->user()->stat('{name}', '?{formatFullResponse}');
-  ```
-
-- Method `achievements` returns player's achievements.
-
-  ```php
-  use Warface\Client as WarfaceClient;
-  
-  $achievements = (new WarfaceClient())->user()->achievements('{name}');
-  ```
-
-### Weapon branch
-
-- Method `catalog` returns a complete list of items available in the game, with their id and name.
-
-  ```php
-  use Warface\Client as WarfaceClient;
-  
-  $catalog = (new WarfaceClient())->achievement()->catalog();
-  ```
+- [Obraz Solntsa](https://github.com/wnull)
+- [All Contributors](https://github.com/wnull/warface-sdk/graphs/contributors)
 
 ## License
 
-[MIT](LICENSE)
-
+The MIT License (MIT). Please see [License File](LICENSE) for more information.

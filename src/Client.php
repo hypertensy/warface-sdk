@@ -2,81 +2,108 @@
 
 declare(strict_types=1);
 
-namespace Warface;
+namespace Wnull\Warface;
 
-use Warface\Interfaces\MethodInterface;
-use Warface\Interfaces\Methods\AchievementInterface;
-use Warface\Interfaces\Methods\ClanInterface;
-use Warface\Interfaces\Methods\GameInterface;
-use Warface\Interfaces\Methods\RatingInterface;
-use Warface\Interfaces\Methods\UserInterface;
-use Warface\Interfaces\Methods\WeaponInterface;
-use Warface\Methods\Achievement;
-use Warface\Methods\Clan;
-use Warface\Methods\Game;
-use Warface\Methods\Rating;
-use Warface\Methods\User;
-use Warface\Methods\Weapon;
+use Http\Client\Common\HttpMethodsClientInterface;
+use Http\Client\Common\Plugin\AddHostPlugin;
+use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
+use Http\Discovery\Psr17FactoryDiscovery;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\UriInterface;
+use Wnull\Warface\Api\AbstractApi;
+use Wnull\Warface\Api\Achievement;
+use Wnull\Warface\Api\AchievementInterface;
+use Wnull\Warface\Api\Clan;
+use Wnull\Warface\Api\ClanInterface;
+use Wnull\Warface\Api\Game;
+use Wnull\Warface\Api\GameInterface;
+use Wnull\Warface\Api\Rating;
+use Wnull\Warface\Api\RatingInterface;
+use Wnull\Warface\Api\User;
+use Wnull\Warface\Api\UserInterface;
+use Wnull\Warface\Api\Weapon;
+use Wnull\Warface\Api\WeaponInterface;
+use Wnull\Warface\Enum\EntityList;
+use Wnull\Warface\Enum\HostList;
+use Wnull\Warface\Enum\RegionEnum;
+use Wnull\Warface\Exception\InvalidApiEndpointException;
+use Wnull\Warface\HttpClient\ClientBuilder;
+use Wnull\Warface\HttpClient\Plugin\BypassTimeoutResponsePlugin;
+use Wnull\Warface\HttpClient\Plugin\WarfaceClientExceptionPlugin;
 
-class Client extends Request implements MethodInterface
+/**
+ * @method AchievementInterface achievement() Achievement branch
+ * @method ClanInterface clan() Clan branch
+ * @method GameInterface game() Game branch
+ * @method RatingInterface rating() Rating branch
+ * @method UserInterface user() User branch
+ * @method WeaponInterface weapon() Weapon branch
+ */
+final class Client
 {
-    /**
-     * Achievement branch.
-     *
-     * @return AchievementInterface
-     */
-    public function achievement(): AchievementInterface
+    private ClientBuilder $httpClientBuilder;
+
+    public function __construct(ClientBuilder $httpClientBuilder = null, RegionEnum $region = null)
     {
-        return new Achievement($this);
+        $this->httpClientBuilder = $builder = $httpClientBuilder ?? new ClientBuilder();
+
+        $host = $region->getValue() === RegionEnum::CIS ? HostList::CIS() : HostList::INTERNATIONAL();
+        $builder->addPlugin(new AddHostPlugin($this->makeHostUri($host)));
+
+        // For CIS region
+        $builder->addPlugin(new BypassTimeoutResponsePlugin());
+
+        $builder->addPlugin(
+            new HeaderDefaultsPlugin([
+                'User-Agent' => 'Warface SDK Client; version 5',
+            ])
+        );
+
+        $builder->addPlugin(new WarfaceClientExceptionPlugin());
     }
 
     /**
-     * Clan branch.
-     *
-     * @return ClanInterface
+     * @throws InvalidApiEndpointException
      */
-    public function clan(): ClanInterface
+    public function __call(string $entity, array $arguments = []): AbstractApi
     {
-        return new Clan($this);
+        switch ($entity) {
+            case EntityList::ACHIEVEMENT:
+                return new Achievement($this);
+            case EntityList::CLAN:
+                return new Clan($this);
+            case EntityList::GAME:
+                return new Game($this);
+            case EntityList::RATING:
+                return new Rating($this);
+            case EntityList::USER:
+                return new User($this);
+            case EntityList::WEAPON:
+                return new Weapon($this);
+            default:
+                throw new InvalidApiEndpointException();
+        }
     }
 
-    /**
-     * Game branch.
-     *
-     * @return GameInterface
-     */
-    public function game(): GameInterface
+    public static function createWithHttpClient(ClientInterface $httpClient, RegionEnum $region = null): self
     {
-        return new Game($this);
+        $builder = new ClientBuilder($httpClient);
+
+        return new self($builder, $region ?? RegionEnum::CIS());
     }
 
-    /**
-     * Rating branch.
-     *
-     * @return RatingInterface
-     */
-    public function rating(): RatingInterface
+    public function getHttpClient(): HttpMethodsClientInterface
     {
-        return new Rating($this);
+        return $this->getHttpClientBuilder()->getHttpClient();
     }
 
-    /**
-     * User branch.
-     *
-     * @return UserInterface
-     */
-    public function user(): UserInterface
+    protected function getHttpClientBuilder(): ClientBuilder
     {
-        return new User($this);
+        return $this->httpClientBuilder;
     }
 
-    /**
-     * Weapon branch.
-     *
-     * @return WeaponInterface
-     */
-    public function weapon(): WeaponInterface
+    private function makeHostUri(HostList $host): UriInterface
     {
-        return new Weapon($this);
+        return Psr17FactoryDiscovery::findUriFactory()->createUri('https://' . $host->getValue());
     }
 }

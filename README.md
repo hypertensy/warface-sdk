@@ -2,7 +2,7 @@
 
 Fast and flexible SDK client of the Warface API in PHP.
 
-> **Important**: during technical weekly work on the game servers, the API may work unstable and give incorrect data.
+> During technical weekly work on the game servers, the API may work unstable and give incorrect data.
 
 ## References
 
@@ -87,39 +87,84 @@ try {
 
 ## API
 
-Below are all kinds of public methods for working with API.
+The structure of the application is based solely on the public methods described in the official [docs](#references).
 
-```php
-$client = new \Wnull\Warface\Client();
+#### Achievement branch
 
-// Achievement branch
-$achievement = $client->achievement();
-$catalog = $achievement->catalog();
+- Method `catalog` returns a complete list of achievements available in the game, with their id and name.
 
-// Clan branch
-$clan = $client->clan();
-$members = $clan->members('<clan_name>');
+  ```php
+  $catalog = (new \Wnull\Warface\Client())->achievement()->catalog();
+  ```
 
-// Game branch
-$game = $client->game();
-$missions = $game->missions();
+#### Clan branch
 
-// Rating branch
-$rating = $client->rating();
-$clan = $rating->clan();
-// All options params
-$monthly = $rating->monthly('?<clan>', \Wnull\Warface\Enum\RatingLeague::BRONZE(), '?<page>')
-$top100 = $rating->top100(\Wnull\Warface\Enum\GameClass::ENGINEER());
+- Method `members` returns information about the clan.
 
-// User branch
-$user = $client->user();
-$stat = $user->stat('<name>');
-$achievements = $user->achievements('<name>');
+  ```php
+  $members = (new \Wnull\Warface\Client())->clan()->members('<clan>');
+  ```
 
-// Weapon branch
-$weapon = $client->weapon();
-$catalog = $weapon->catalog();
-```
+#### Game branch
+
+- Method `missions` returns detailed information about available missions and rewards for completing.
+
+  ```php
+  $missions = (new \Wnull\Warface\Client())->game()->missions();
+  ```
+
+#### Rating branch
+
+- Method `monthly` returns the monthly rating.
+
+  > If the `$clan` parameter is used, the response from the server will contain data about the selected clan, it will also indicate exactly the league in which this clan is located even if it was not selected in the `$league`.
+  >
+  > If only the `$league` parameter is used, the server will return the top 100 for that league.
+
+  ```php
+  $monthly = (new \Wnull\Warface\Client())
+    ->rating()
+    ->monthly('?<clan>', \Wnull\Warface\Enum\RatingLeague::ELITE(), '?<page>');
+  ```
+
+- Method `clan` returns information about the rating of clans.
+
+  ```php
+  use Warface\Client as WarfaceClient;
+  
+  $clan = (new WarfaceClient())->rating()->clan();
+  ```
+
+- Method `top100` returns a TOP-100 rating.
+
+  > If the parameter `$class` is not specified, the data gets for all classes.
+
+  ```php
+  $top100 = (new \Wnull\Warface\Client())->rating()->top100(\Wnull\Warface\Enum\GameClass::MEDIC());
+  ```
+
+#### User branch
+
+- Method `stat` returns player statistics.
+
+  ```php
+  $stat = (new \Wnull\Warface\Client())->user()->stat('<name>');
+  ```
+
+- Method `achievements` returns player's achievements.
+
+  ```php
+  $achievements = (new \Wnull\Warface\Client())->user()->achievements('<name>');
+  ```
+
+#### Weapon branch
+
+- Method `catalog` returns a complete list of items available in the game, with their id and name.
+
+  ```php
+  $catalog = (new \Wnull\Warface\Client())->achievement()->catalog();
+  ```
+
 
 ## Credits
 

@@ -36,18 +36,6 @@ final class ClientBuilder
         return new HttpMethodsClient($client, $this->requestFactory);
     }
 
-    /**
-     * @param class-string<Plugin> $className
-     */
-    public function removePlugin(string $className): void
-    {
-        foreach ($this->plugins as $idx => $plugin) {
-            if ($plugin instanceof $className) {
-                unset($this->plugins[$idx]);
-            }
-        }
-    }
-
     public function addPlugin(Plugin $plugin): void
     {
         $this->plugins[] = $plugin;

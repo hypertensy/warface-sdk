@@ -10,5 +10,8 @@ interface ResponseMediatorInterface
 {
     public function getResponse(): ResponseInterface;
 
+    /**
+     * @return array<string|int, mixed>
+     */
     public function getBodyContentsDecode(): array;
 }

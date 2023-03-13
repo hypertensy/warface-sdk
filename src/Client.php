@@ -67,9 +67,10 @@ final class Client
     }
 
     /**
+     * @param array<int, mixed> $args
      * @throws InvalidApiEndpointException
      */
-    public function __call(string $entity, array $arguments = []): AbstractApi
+    public function __call(string $entity, array $args = []): AbstractApi
     {
         switch ($entity) {
             case EntityList::ACHIEVEMENT:
@@ -85,7 +86,7 @@ final class Client
             case EntityList::WEAPON:
                 return new Weapon($this);
             default:
-                throw new InvalidApiEndpointException();
+                throw new InvalidApiEndpointException('Call unknown entity');
         }
     }
 
@@ -93,7 +94,7 @@ final class Client
     {
         $builder = new ClientBuilder($httpClient);
 
-        return new self($builder, $region ?? RegionEnum::CIS());
+        return new self($builder, $region);
     }
 
     public function getHttpClient(): HttpMethodsClientInterface

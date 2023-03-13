@@ -13,6 +13,7 @@ interface RatingInterface
     /**
      * This method returns information about the rating of clans.
      *
+     * @return array<string|int, mixed>
      * @throws WarfaceApiException
      */
     public function clan(): array;
@@ -25,6 +26,7 @@ interface RatingInterface
      *
      * If only the $league parameter is used, the server will return the top 100 for that league.
      *
+     * @return array<string|int, mixed>
      * @see LeagueEnum
      * @throws WarfaceApiException
      */
@@ -35,6 +37,7 @@ interface RatingInterface
      *
      * If the parameter $class is not specified or set 0, the data gets for all classes.
      *
+     * @return array<string|int, mixed>
      * @see GameClass
      * @throws WarfaceApiException
      */

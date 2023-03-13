@@ -12,6 +12,7 @@ use Wnull\Warface\Enum\HostList;
 
 use function bin2hex;
 use function http_build_query;
+use function is_string;
 use function parse_str;
 use function random_bytes;
 
@@ -30,13 +31,13 @@ final class BypassTimeoutResponsePlugin implements Plugin
     {
         $uri = $request->getUri();
 
-        if (str_contains(HostList::CIS, $uri->getHost())) {
+        if ($uri->getHost() === HostList::CIS) {
             $code = '<' . bin2hex(random_bytes(32));
             $params = [];
 
             parse_str($uri->getQuery(), $params);
 
-            $params['name'] = isset($params['name']) ? $params['name'] . $code : $code;
+            $params['name'] = !empty($params['name']) && is_string($params['name']) ? $params['name'] . $code : $code;
             $query = http_build_query($params);
 
             $request = $request->withUri($uri->withQuery($query));

@@ -9,6 +9,8 @@ use MyCLabs\Enum\Enum;
 /**
  * @method static HostList CIS()
  * @method static HostList INTERNATIONAL()
+ *
+ * @extends Enum<string>
  */
 class HostList extends Enum
 {

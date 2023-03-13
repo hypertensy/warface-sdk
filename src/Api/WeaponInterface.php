@@ -11,6 +11,7 @@ interface WeaponInterface
     /**
      * This method returns a complete list of items available in the game, with their id and name.
      *
+     * @return array<string|int, mixed>
      * @throws WarfaceApiException
      */
     public function catalog(): array;

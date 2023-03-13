@@ -25,19 +25,22 @@ abstract class AbstractApi
     abstract protected function entity(): EntityList;
 
     /**
+     * @param array<string, mixed> $params
+     * @return array<string|int, mixed>
      * @throws WarfaceApiException
      */
     protected function getByMethod(string $method, array $params = []): array
     {
-        return $this
-            ->get($this->entity()->getValue() . '/' . $method, $params)
-            ->getBodyContentsDecode();
+        $path = $this->entity()->getValue() . '/' . $method;
+
+        return $this->get($path, $params)->getBodyContentsDecode();
     }
 
     /**
+     * @param array<string, mixed> $parameters
      * @throws WarfaceApiException
      */
-    protected function get(string $path, array $parameters = []): ResponseMediatorInterface
+    protected function get(string $path, array $parameters): ResponseMediatorInterface
     {
         if (count($parameters) > 0) {
             $path .= '?' . http_build_query($parameters);
@@ -52,11 +55,11 @@ abstract class AbstractApi
     private function sendRequest(string $method, string $uri): ResponseMediatorInterface
     {
         try {
-            $response = $this->client->getHttpClient()->send($method, $uri);
+            return new ResponseMediator(
+                $this->client->getHttpClient()->send($method, $uri)
+            );
         } catch (ClientExceptionInterface $e) {
             throw new ApiResponseErrorException($e->getMessage(), $e->getCode());
         }
-
-        return new ResponseMediator($response);
     }
 }

@@ -11,6 +11,7 @@ interface UserInterface
     /**
      * This method returns player statistics.
      *
+     * @return array<string|int, mixed>
      * @throws WarfaceApiException
      */
     public function stat(string $name): array;
@@ -18,6 +19,7 @@ interface UserInterface
     /**
      * This method returns player's achievements.
      *
+     * @return array<string|int, mixed>
      * @throws WarfaceApiException
      */
     public function achievements(string $name): array;

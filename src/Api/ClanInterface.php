@@ -11,6 +11,7 @@ interface ClanInterface
     /**
      * This method returns information about the clan.
      *
+     * @return array<string|int, mixed>
      * @throws WarfaceApiException
      */
     public function members(string $clan): array;

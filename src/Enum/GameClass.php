@@ -7,12 +7,14 @@ namespace Wnull\Warface\Enum;
 use MyCLabs\Enum\Enum;
 
 /**
- * @method static RatingLeague NONE()
- * @method static RatingLeague RIFLEMAN()
- * @method static RatingLeague MEDIC()
- * @method static RatingLeague ENGINEER()
- * @method static RatingLeague SNIPER()
- * @method static RatingLeague SED()
+ * @method static GameClass NONE()
+ * @method static GameClass RIFLEMAN()
+ * @method static GameClass MEDIC()
+ * @method static GameClass ENGINEER()
+ * @method static GameClass SNIPER()
+ * @method static GameClass SED()
+ *
+ * @extends Enum<string>
  */
 final class GameClass extends Enum
 {

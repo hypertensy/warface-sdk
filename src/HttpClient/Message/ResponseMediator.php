@@ -26,12 +26,13 @@ final class ResponseMediator implements ResponseMediatorInterface
     }
 
     /**
+     * @return array<string|int, mixed>
      * @throws JsonException
      */
     public function getBodyContentsDecode(): array
     {
         $body = $this->getResponse()->getBody()->getContents();
 
-        return json_decode($body, true, 512, JSON_THROW_ON_ERROR);
+        return (array)json_decode($body, true, 512, JSON_THROW_ON_ERROR);
     }
 }

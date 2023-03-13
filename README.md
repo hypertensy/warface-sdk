@@ -73,7 +73,7 @@ composer require wnull/warface-sdk symfony/http-client nyholm/psr7
 Next, set up the Warface SDK client with this HTTP client:
 
 ```php
-$client = \Worksome\SDK\Client::createWithHttpClient(
+$client = \Wnull\Warface\Client::createWithHttpClient(
     new \Symfony\Component\HttpClient\HttplugClient()
 );
 ```
@@ -89,8 +89,8 @@ try {
     $catalog = (new \Wnull\Warface\Client())->user()->stat('');
 } catch (\Wnull\Warface\Exception\WarfaceApiException $e) {
     if ($e instanceof \Wnull\Warface\Exception\BadRequestException) {
-        $rawBody = $e->getMediator()->getResponse()->getBody()->getContents(); // raw body
-        $decodeBody = $e->getMediator()->getBodyContentsDecode(); // array decode body with reason
+        $decodeBody = json_decode($e->getMessage(), true);
+        print_r($decodeBody);
     }
 }
 ```

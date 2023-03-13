@@ -29,7 +29,7 @@ final class WarfaceClientExceptionPlugin implements Plugin
                     // Do nothing
                     break;
                 case StatusCodeInterface::STATUS_BAD_REQUEST:
-                    throw new BadRequestException('Bad Request', $status);
+                    throw new BadRequestException($response->getBody()->__toString(), $status);
                 case StatusCodeInterface::STATUS_NOT_FOUND:
                     throw new NotFoundException('Not Found', $status);
                 case StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR:

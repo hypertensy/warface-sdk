@@ -90,6 +90,13 @@ final class Client
         }
     }
 
+    public static function createWithHttpClient(ClientInterface $httpClient, RegionEnum $region = null): self
+    {
+        $builder = new ClientBuilder($httpClient);
+
+        return new self($builder, $region);
+    }
+
     public function getHttpClient(): HttpMethodsClientInterface
     {
         return $this->getHttpClientBuilder()->getHttpClient();

@@ -16,4 +16,3 @@ it(
     InvalidApiEndpointException::class,
     'Call unknown entity'
 );
-

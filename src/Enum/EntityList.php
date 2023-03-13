@@ -13,6 +13,8 @@ use MyCLabs\Enum\Enum;
  * @method static EntityList RATING()
  * @method static EntityList USER()
  * @method static EntityList WEAPON()
+ *
+ * @extends Enum<string>
  */
 final class EntityList extends Enum
 {

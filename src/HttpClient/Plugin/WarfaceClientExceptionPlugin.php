@@ -22,19 +22,20 @@ final class WarfaceClientExceptionPlugin implements Plugin
      */
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
-        return $next($request)->then(static function (ResponseInterface $response) use ($request) {
-            switch ($response->getStatusCode()) {
+        return $next($request)->then(static function (ResponseInterface $response) {
+            $status = $response->getStatusCode();
+            switch ($status) {
                 case StatusCodeInterface::STATUS_OK:
                     // Do nothing
                     break;
                 case StatusCodeInterface::STATUS_BAD_REQUEST:
-                    throw BadRequestException::createFromResponse('Bad Request', $response);
+                    throw new BadRequestException('Bad Request', $status);
                 case StatusCodeInterface::STATUS_NOT_FOUND:
-                    throw NotFoundException::createFromResponse('Not Found', $response);
+                    throw new NotFoundException('Not Found', $status);
                 case StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR:
-                    throw InternalServerErrorException::createFromResponse('Internal Server Error', $response);
+                    throw new InternalServerErrorException('Internal Server Error', $status);
                 default:
-                    throw ApiResponseErrorException::createFromResponse('Unknown error from API', $response);
+                    throw new ApiResponseErrorException('Unknown error from API', $status);
             }
 
             return $response;

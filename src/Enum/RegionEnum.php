@@ -9,6 +9,8 @@ use MyCLabs\Enum\Enum;
 /**
  * @method static RegionEnum CIS()
  * @method static RegionEnum INTERNATIONAL()
+ *
+ * @extends Enum<string>
  */
 class RegionEnum extends Enum
 {

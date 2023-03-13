@@ -20,12 +20,22 @@ We are decoupled from any HTTP messaging client with help by [HTTPlug](https://h
 
 ## Quickstart
 
+Structure of the client class constructor.
+
+```php
+public function __construct(
+    \Wnull\Warface\HttpClient\ClientBuilder $httpClientBuilder = null, 
+    \Wnull\Warface\Enum\RegionEnum $region = null,
+): \Wnull\Warface\Client
+```
+
 Create an instance of the client using the following code:
 
 ```php
 $client = new \Wnull\Warface\Client();
 ```
-The constructor includes two parameters: the first is the client class builder, the second is the host API region. You can make your the builder and fill it with custom plugins.
+
+When creating a builder, you can add custom plugins to it.
 
 ```php
 $builder = (new \Wnull\Warface\HttpClient\ClientBuilder());
@@ -34,8 +44,8 @@ $builder->addPlugin(
         public function handleRequest(
             \Psr\Http\Message\RequestInterface $request, 
             callable $next, 
-            callable $first)
-        : \Http\Promise\Promise {
+            callable $first
+        ): \Http\Promise\Promise {
             // TODO: Implement handleRequest() method.
         }
     }
@@ -72,11 +82,11 @@ Alternatively, you can inject an HTTP client through the `Client` constructor.
 
 ---
 
-For requests that return the status `400`, if an opportunity is needed, then you can process the error body, since requests also return json data.
+For requests that return the status `400`, you can get the response body, not only raw, but also decoded, since the API returns JSON.
 
 ```php
 try {
-    $catalog = (new \Wnull\Warface\Client())->weapon()->catalog();
+    $catalog = (new \Wnull\Warface\Client())->user()->stat('');
 } catch (\Wnull\Warface\Exception\WarfaceApiException $e) {
     if ($e instanceof \Wnull\Warface\Exception\BadRequestException) {
         $rawBody = $e->getMediator()->getResponse()->getBody()->getContents(); // raw body
@@ -130,9 +140,7 @@ The structure of the application is based solely on the public methods described
 - Method `clan` returns information about the rating of clans.
 
   ```php
-  use Warface\Client as WarfaceClient;
-  
-  $clan = (new WarfaceClient())->rating()->clan();
+  $clan = (new \Wnull\Warface\Client())->rating()->clan();
   ```
 
 - Method `top100` returns a TOP-100 rating.

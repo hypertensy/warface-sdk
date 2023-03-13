@@ -21,7 +21,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         $client = new Client(null, RegionEnum::INTERNATIONAL());
 
-        return new ($this->apiClass)($client);
+        return new $this->apiClass($client);
     }
 
     protected function getRandomElement(array $data): ?array

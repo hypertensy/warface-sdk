@@ -47,7 +47,11 @@ final class Client
     {
         $this->httpClientBuilder = $builder = $httpClientBuilder ?? new ClientBuilder();
 
-        $host = $region->getValue() === RegionEnum::CIS ? HostList::CIS() : HostList::INTERNATIONAL();
+        // Set API host depending on the region
+        $host = ($region ?? RegionEnum::CIS())->getValue() === RegionEnum::CIS
+            ? HostList::CIS()
+            : HostList::INTERNATIONAL();
+
         $builder->addPlugin(new AddHostPlugin($this->makeHostUri($host)));
 
         // For CIS region

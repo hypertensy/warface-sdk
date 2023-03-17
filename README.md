@@ -1,5 +1,8 @@
 # Warface  SDK client
 
+[![Build Status](https://travis-ci.com/wnull/warface-sdk.svg?branch=main)](https://travis-ci.com/brefphp/bref)
+[![Latest Version](https://img.shields.io/github/release/wnull/warface-sdk.svg)](https://packagist.org/packages/wnull/warface-sdk)
+
 Fast and flexible SDK client of the Warface API in PHP.
 
 > During technical weekly work on the game servers, the API may work unstable and give incorrect data.
@@ -80,28 +83,13 @@ $client = \Wnull\Warface\Client::createWithHttpClient(
 
 Alternatively, you can inject an HTTP client through the `Client` constructor.
 
----
-
-For requests that return the status `400`, you can get the response body, not only raw, but also decoded, since the API returns JSON.
-
-```php
-try {
-    $catalog = (new \Wnull\Warface\Client())->user()->stat('');
-} catch (\Wnull\Warface\Exception\WarfaceApiException $e) {
-    if ($e instanceof \Wnull\Warface\Exception\BadRequestException) {
-        $decodeBody = json_decode($e->getMessage(), true);
-        print_r($decodeBody);
-    }
-}
-```
-
 ## API
 
 The structure of the application is based solely on the public methods described in the official [docs](#references).
 
 #### Achievement branch
 
-- Method `catalog` returns a complete list of achievements available in the game, with their id and name.
+- > Method `catalog` returns a complete list of achievements available in the game, with their id and name.
 
   ```php
   $catalog = (new \Wnull\Warface\Client())->achievement()->catalog();
@@ -109,7 +97,7 @@ The structure of the application is based solely on the public methods described
 
 #### Clan branch
 
-- Method `members` returns information about the clan.
+- > Method `members` returns information about the clan.
 
   ```php
   $members = (new \Wnull\Warface\Client())->clan()->members('<clan>');
@@ -117,7 +105,7 @@ The structure of the application is based solely on the public methods described
 
 #### Game branch
 
-- Method `missions` returns detailed information about available missions and rewards for completing.
+- > Method `missions` returns detailed information about available missions and rewards for completing.
 
   ```php
   $missions = (new \Wnull\Warface\Client())->game()->missions();
@@ -125,8 +113,8 @@ The structure of the application is based solely on the public methods described
 
 #### Rating branch
 
-- Method `monthly` returns the monthly rating.
-
+- > Method `monthly` returns the monthly rating.
+  >
   > If the `$clan` parameter is used, the response from the server will contain data about the selected clan, it will also indicate exactly the league in which this clan is located even if it was not selected in the `$league`.
   >
   > If only the `$league` parameter is used, the server will return the top 100 for that league.
@@ -137,14 +125,14 @@ The structure of the application is based solely on the public methods described
     ->monthly('?<clan>', \Wnull\Warface\Enum\RatingLeague::ELITE(), '?<page>');
   ```
 
-- Method `clan` returns information about the rating of clans.
+- > Method `clan` returns information about the rating of clans.
 
   ```php
   $clan = (new \Wnull\Warface\Client())->rating()->clan();
   ```
 
-- Method `top100` returns a TOP-100 rating.
-
+- > Method `top100` returns a TOP-100 rating.
+  > 
   > If the parameter `$class` is not specified, the data gets for all classes.
 
   ```php
@@ -153,13 +141,13 @@ The structure of the application is based solely on the public methods described
 
 #### User branch
 
-- Method `stat` returns player statistics.
+- > Method `stat` returns player statistics.
 
   ```php
   $stat = (new \Wnull\Warface\Client())->user()->stat('<name>');
   ```
 
-- Method `achievements` returns player's achievements.
+- > Method `achievements` returns player's achievements.
 
   ```php
   $achievements = (new \Wnull\Warface\Client())->user()->achievements('<name>');
@@ -167,12 +155,17 @@ The structure of the application is based solely on the public methods described
 
 #### Weapon branch
 
-- Method `catalog` returns a complete list of items available in the game, with their id and name.
+- > Method `catalog` returns a complete list of items available in the game, with their id and name.
 
   ```php
   $catalog = (new \Wnull\Warface\Client())->achievement()->catalog();
   ```
 
+## Testing
+
+```shell
+$ composer test
+```
 
 ## Credits
 

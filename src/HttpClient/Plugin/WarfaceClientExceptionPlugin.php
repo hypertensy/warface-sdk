@@ -34,14 +34,13 @@ final class WarfaceClientExceptionPlugin implements Plugin
                     // Do nothing
                     break;
                 case StatusCodeInterface::STATUS_BAD_REQUEST:
-                    $message = $response->getBody()->__toString();
                     if (str_contains($response->getHeaderLine('Content-Type'), 'application/json')) {
-                        /** @var array{message: ?string, code: int} $body */
+                        /** @var array{message: string, code: int} $body */
                         $body = (new ResponseMediator($response))->getBodyContentsDecode();
-                        $message = $body['message'] ?? $message;
+                        $message = $body['message'];
                     }
 
-                    throw new BadRequestException($message, $status);
+                    throw new BadRequestException($message ?? $response->getBody()->__toString(), $status);
                 case StatusCodeInterface::STATUS_NOT_FOUND:
                     throw new NotFoundException('Not Found', $status);
                 case StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR:

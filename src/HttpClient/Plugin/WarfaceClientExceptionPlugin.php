@@ -18,7 +18,6 @@ use Wnull\Warface\HttpClient\Message\ResponseMediator;
 use JsonException;
 
 use function str_contains;
-use function var_dump;
 
 final class WarfaceClientExceptionPlugin implements Plugin
 {

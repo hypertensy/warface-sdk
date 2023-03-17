@@ -14,11 +14,16 @@ use Wnull\Warface\Exception\BadRequestException;
 use Wnull\Warface\Exception\InternalServerErrorException;
 use Wnull\Warface\Exception\NotFoundException;
 use Wnull\Warface\Exception\WarfaceApiException;
+use Wnull\Warface\HttpClient\Message\ResponseMediator;
+use JsonException;
+
+use function str_contains;
 
 final class WarfaceClientExceptionPlugin implements Plugin
 {
     /**
      * @throws WarfaceApiException
+     * @throws JsonException
      */
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
@@ -29,7 +34,14 @@ final class WarfaceClientExceptionPlugin implements Plugin
                     // Do nothing
                     break;
                 case StatusCodeInterface::STATUS_BAD_REQUEST:
-                    throw new BadRequestException($response->getBody()->__toString(), $status);
+                    $message = $response->getBody()->__toString();
+                    if (str_contains($response->getHeaderLine('Content-Type'), 'application/json')) {
+                        /** @var array{message: ?string, code: int} $body */
+                        $body = (new ResponseMediator($response))->getBodyContentsDecode();
+                        $message = $body['message'] ?? $message;
+                    }
+
+                    throw new BadRequestException($message, $status);
                 case StatusCodeInterface::STATUS_NOT_FOUND:
                     throw new NotFoundException('Not Found', $status);
                 case StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR:

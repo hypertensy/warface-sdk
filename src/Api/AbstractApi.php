@@ -17,6 +17,9 @@ use Wnull\Warface\ExceptionInterface;
 use Wnull\Warface\HttpClient\RequestBuilder;
 use Wnull\Warface\Hydrator\HydratorInterface;
 
+use function count;
+use function http_build_query;
+
 abstract class AbstractApi
 {
     protected ClientInterface $httpClient;

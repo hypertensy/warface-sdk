@@ -11,7 +11,6 @@ use Wnull\Warface\Api\Game;
 use Wnull\Warface\Api\Rating;
 use Wnull\Warface\Api\User;
 use Wnull\Warface\Api\Weapon;
-use Wnull\Warface\Enum\RegionEnum;
 use Wnull\Warface\HttpClient\HttpClientConfigurator;
 use Wnull\Warface\HttpClient\RequestBuilder;
 use Wnull\Warface\Hydrator\ArrayHydrator;

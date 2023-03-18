@@ -22,6 +22,9 @@ final class HttpClientConfigurator
     private ClientInterface $httpClient;
     private RegionEnum $region;
 
+    /** @var array<Plugin> */
+    private array $plugins;
+
     public function __construct()
     {
         // set default
@@ -30,20 +33,27 @@ final class HttpClientConfigurator
 
     public function createConfiguredClient(): PluginClient
     {
-        /** @var array<Plugin> $plugins */
-        $plugins = [
-            new AddHostPlugin($this->getUriFactory()->createUri('https://' . $this->getApiHost() . '/')),
+        $this->addPlugin(
+            new AddHostPlugin($this->getUriFactory()->createUri('https://' . $this->getApiHost() . '/'))
+        );
+
+        $this->addPlugin(
             new HeaderDefaultsPlugin([
                 'User-Agent' => 'warface-sdk/v5 (https://github.com/wnull/warface-sdk)',
             ]),
-        ];
+        );
 
         // plugin only for CIS region
         if ($this->isCurrentRegionCis()) {
-            $plugins[] = new BypassTimeoutResponsePlugin();
+            $this->addPlugin(new BypassTimeoutResponsePlugin());
         }
 
-        return new PluginClient($this->getHttpClient(), $plugins);
+        return new PluginClient($this->getHttpClient(), $this->getPlugins());
+    }
+
+    public function addPlugin(Plugin $plugin): void
+    {
+        $this->plugins[] = $plugin;
     }
 
     public function setHttpClient(ClientInterface $httpClient): self
@@ -78,5 +88,13 @@ final class HttpClientConfigurator
     private function isCurrentRegionCis(): bool
     {
         return $this->region->getValue() === RegionEnum::CIS;
+    }
+
+    /**
+     * @return array<Plugin>
+     */
+    private function getPlugins(): array
+    {
+        return $this->plugins;
     }
 }

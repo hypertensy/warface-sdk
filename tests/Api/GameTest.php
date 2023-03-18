@@ -8,6 +8,7 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Wnull\Warface\Api\Game;
 use Wnull\Warface\ExceptionInterface;
 
+/** @uses TestCase::getApi() */
 beforeEach(fn () => $this->apiClass = Game::class);
 
 it(

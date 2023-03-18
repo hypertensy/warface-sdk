@@ -6,13 +6,16 @@ namespace Wnull\Warface\Tests\Api;
 
 use Psr\Http\Client\ClientExceptionInterface;
 use Wnull\Warface\Api\User;
+use Wnull\Warface\ExceptionInterface;
 
+/** @uses TestCase::getApi() */
 beforeEach(fn () => $this->apiClass = User::class);
 
 it(
     'can request a user stat',
     /**
      * @throws ClientExceptionInterface
+     * @throws ExceptionInterface
      */
     function () {
         /** @var User $api */
@@ -57,6 +60,7 @@ it(
     'can request a user achievements',
     /**
      * @throws ClientExceptionInterface
+     * @throws ExceptionInterface
      */
     function () {
         /** @var User $api */

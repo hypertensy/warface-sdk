@@ -8,13 +8,16 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Wnull\Warface\Api\Rating;
 use Wnull\Warface\Enum\GameClass;
 use Wnull\Warface\Enum\RatingLeague;
+use Wnull\Warface\ExceptionInterface;
 
+/** @uses TestCase::getApi() */
 beforeEach(fn () => $this->apiClass = Rating::class);
 
 it(
     'can request a rating clan',
     /**
      * @throws ClientExceptionInterface
+     * @throws ExceptionInterface
      */
     function () {
         /** @var Rating $api */
@@ -35,6 +38,7 @@ it(
     'can request a rating monthly',
     /**
      * @throws ClientExceptionInterface
+     * @throws ExceptionInterface
      */
     function () {
         /** @var Rating $api */
@@ -58,6 +62,7 @@ it(
     'can request a rating top100',
     /**
      * @throws ClientExceptionInterface
+     * @throws ExceptionInterface
      */
     function () {
         /** @var Rating $api */

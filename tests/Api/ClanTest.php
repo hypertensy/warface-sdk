@@ -6,13 +6,16 @@ namespace Wnull\Warface\Tests\Api;
 
 use Psr\Http\Client\ClientExceptionInterface;
 use Wnull\Warface\Api\Clan;
+use Wnull\Warface\ExceptionInterface;
 
+/** @uses TestCase::getApi() */
 beforeEach(fn () => $this->apiClass = Clan::class);
 
 it(
     'can request a clan members',
     /**
      * @throws ClientExceptionInterface
+     * @throws ExceptionInterface
      */
     function () {
         /** @var Clan $api */

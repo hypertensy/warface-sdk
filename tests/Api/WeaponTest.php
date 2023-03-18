@@ -6,13 +6,16 @@ namespace Wnull\Warface\Tests\Api;
 
 use Psr\Http\Client\ClientExceptionInterface;
 use Wnull\Warface\Api\Weapon;
+use Wnull\Warface\ExceptionInterface;
 
+/** @uses TestCase::getApi() */
 beforeEach(fn () => $this->apiClass = Weapon::class);
 
 it(
     'can request a weapon catalog',
     /**
      * @throws ClientExceptionInterface
+     * @throws ExceptionInterface
      */
     function () {
         /** @var Weapon $api */

@@ -27,7 +27,7 @@ Structure of the client class constructor.
 
 ```php
 public function __construct(
-    \Wnull\Warface\HttpClient\ClientBuilder $httpClientBuilder = null, 
+    \Wnull\Warface\HttpClient\RequestBuilder $httpClientBuilder = null, 
     \Wnull\Warface\Enum\RegionEnum $region = null,
 ): \Wnull\Warface\Client
 ```

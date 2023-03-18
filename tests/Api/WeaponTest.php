@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Wnull\Warface\Tests\Api;
 
+use Psr\Http\Client\ClientExceptionInterface;
 use Wnull\Warface\Api\Weapon;
-use Wnull\Warface\Api\WeaponInterface;
-use Wnull\Warface\Exception\WarfaceApiException;
 
 beforeEach(fn () => $this->apiClass = Weapon::class);
 
 it(
     'can request a weapon catalog',
     /**
-     * @throws WarfaceApiException
+     * @throws ClientExceptionInterface
      */
     function () {
-        /** @var WeaponInterface $api */
+        /** @var Weapon $api */
         $api = $this->getApi();
 
+        /** @uses TestCase::getRandomElement $element */
         $element = $this->getRandomElement($api->catalog());
 
         expect($element)

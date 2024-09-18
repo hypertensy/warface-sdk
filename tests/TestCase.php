@@ -19,7 +19,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     public function getApi(): AbstractApi
     {
-        $client = new Client(null, RegionEnum::INTERNATIONAL());
+        $client = new Client(null, RegionEnum::CIS());
 
         return new $this->apiClass($client);
     }

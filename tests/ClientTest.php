@@ -11,12 +11,14 @@ use Wnull\Warface\Api\RatingInterface;
 use Wnull\Warface\Api\UserInterface;
 use Wnull\Warface\Api\WeaponInterface;
 use Wnull\Warface\Client;
+use Wnull\Warface\Enum\RegionEnum;
 
 it('gets instances from the client', function () {
-    $client = new Client();
+    $client = new Client(null, RegionEnum::CIS());
 
-    expect($client->achievement())->toBeInstanceOf(Achievement::class)
-    ->and($client->clan())->toBeInstanceOf(ClanInterface::class)
+    expect($client->achievement())
+        ->toBeInstanceOf(Achievement::class)
+        ->and($client->clan())->toBeInstanceOf(ClanInterface::class)
         ->and($client->game())->toBeInstanceOf(GameInterface::class)
         ->and($client->rating())->toBeInstanceOf(RatingInterface::class)
         ->and($client->user())->toBeInstanceOf(UserInterface::class)

@@ -1,6 +1,6 @@
 {
-    "name": "wnull/warface-sdk",
-    "version": "5.0.0",
+    "name": "hypertensy/warface-sdk",
+    "version": "5.0.1",
     "description": "Fast and flexible SDK client of the Warface API in PHP.",
     "type": "library",
     "license": "MIT",
@@ -49,5 +49,6 @@
             "php-http/discovery": true,
             "pestphp/pest-plugin": true
         }
-    }
+    },
+    "minimum-stability": "stable"
 }

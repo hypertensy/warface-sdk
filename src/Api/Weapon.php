@@ -6,6 +6,9 @@ namespace Wnull\Warface\Api;
 
 use Wnull\Warface\Enum\EntityList;
 
+/**
+ * @deprecated The branch is no longer a public API method
+ */
 class Weapon extends AbstractApi implements WeaponInterface
 {
     public function catalog(): array

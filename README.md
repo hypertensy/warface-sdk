@@ -5,6 +5,8 @@
 
 Fast and flexible SDK client of the Warface API in PHP.
 
+> Note that the "Weapon" branch is no longer a public API method. The International region API has also ceased to exist.
+> 
 > During technical weekly work on the game servers, the API may work unstable and give incorrect data.
 
 ## References
@@ -153,7 +155,7 @@ The structure of the application is based solely on the public methods described
   $achievements = (new \Wnull\Warface\Client())->user()->achievements('<name>');
   ```
 
-#### Weapon branch
+#### Weapon branch (deprecated since September 2024)
 
 - > Method `catalog` returns a complete list of items available in the game, with their id and name.
 
@@ -169,7 +171,7 @@ $ composer test
 
 ## Credits
 
-- [Obraz Solntsa](https://github.com/wnull)
+- [hypertensy](https://github.com/wnull)
 - [All Contributors](https://github.com/wnull/warface-sdk/graphs/contributors)
 
 ## License

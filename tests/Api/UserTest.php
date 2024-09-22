@@ -19,7 +19,7 @@ it(
         /** @var UserInterface $api */
         $api = $this->getApi();
 
-        $name = 'sixin';
+        $name = 'ГрозовоеОблако';
         $element = $api->stat($name);
 
         expect($element)
@@ -27,7 +27,8 @@ it(
             ->toHaveKey('nickname', $name)
             ->toHaveKey('experience')
             ->toHaveKey('rank_id')
-            ->toHaveKey('is_transparent')
+            // Field is_transparent deprecated (is not public)
+//            ->toHaveKey('is_transparent')
             ->toHaveKey('kill')
             ->toHaveKey('friendly_kills')
             ->toHaveKey('kills')
@@ -63,7 +64,7 @@ it(
         /** @var UserInterface $api */
         $api = $this->getApi();
 
-        $name = 'sixin';
+        $name = 'ГрозовоеОблако';
         $element = $this->getRandomElement($api->achievements($name));
 
         expect($element)

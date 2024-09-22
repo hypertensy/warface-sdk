@@ -8,6 +8,7 @@ use Wnull\Warface\Api\Weapon;
 use Wnull\Warface\Api\WeaponInterface;
 use Wnull\Warface\Exception\WarfaceApiException;
 
+/** @deprecated */
 beforeEach(fn () => $this->apiClass = Weapon::class);
 
 it(
@@ -20,17 +21,19 @@ it(
         $api = $this->getApi();
 
         $element = $this->getRandomElement($api->catalog());
+        expect($element)->toBeNull();
 
-        expect($element)
-            ->toHaveKey('id')
-            ->toHaveKey('name_en')
-            ->toHaveKey('name_es')
-            ->toHaveKey('name_pl')
-            ->toHaveKey('name_de')
-            ->toHaveKey('name_fr')
-            ->toHaveKey('name_cn')
-            ->toHaveKey('name_ko')
-            ->toHaveKey('name_pt')
-            ->toHaveKey('name_tr');
+//      deprecated test
+//        expect($element)
+//            ->toHaveKey('id')
+//            ->toHaveKey('name_en')
+//            ->toHaveKey('name_es')
+//            ->toHaveKey('name_pl')
+//            ->toHaveKey('name_de')
+//            ->toHaveKey('name_fr')
+//            ->toHaveKey('name_cn')
+//            ->toHaveKey('name_ko')
+//            ->toHaveKey('name_pt')
+//            ->toHaveKey('name_tr');
     }
 );

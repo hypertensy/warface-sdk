@@ -26,6 +26,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function getRandomElement(array $data): ?array
     {
+        if (empty($data)) {
+            return null;
+        }
+
         return $data[array_rand($data)] ?? null;
     }
 }
